@@ -40,8 +40,6 @@ periodic_pattern <- function(n_p = 2,
 }
 
 #' Simulate baseline data ----
-#' Simulation of baseline data.
-#'
 #' @description
 #' This function simulates a time series of daily counts in the absence of outbreaks. Data is simulated using a poisson/negative binomial model as described in
 #' Noufaily et al. (2019).
@@ -197,11 +195,15 @@ simulate_baseline_data <-  function(start_date,
 
 
 simulate_seasonal_outbreak_data <-  function(data,
-                                             week_season_start = 40,
-                                             week_season_peak = 4,
-                                             week_season_end = 20,
+                                             week_season_start = "01",
+                                             week_season_peak = 01,
+                                             week_season_end = 01,
                                              n_season_outbreak = 1,
-                                             m=50){
+                                             m=2*7*150,
+                                             phi=1){
+
+
+
 
   years_out <- NULL
   print(years_out)
@@ -209,6 +211,7 @@ simulate_seasonal_outbreak_data <-  function(data,
   d <- copy(data)
   N <- nrow(d)
 
+  d[, phi:=phi]
   d[, sd:= sqrt(mu*phi)]
 
   ## wdays reweight ## should this be part of parameters?
@@ -217,8 +220,8 @@ simulate_seasonal_outbreak_data <-  function(data,
   d[wday==3, weight:=1]
   d[wday==4, weight:=1]
   d[wday==5, weight:=1]
-  d[wday==6, weight:=2]
-  d[wday==7, weight:=2]
+  d[wday==6, weight:=1.5]
+  d[wday==7, weight:=1.5]
 
 
   ## select year were there is seasonal outbreak
@@ -255,7 +258,7 @@ simulate_seasonal_outbreak_data <-  function(data,
           while(size_outbreak < 2){
             set.seed(sou)
             sd <- d[time == start_seasonal_outbreak[i]]$sd
-            size_outbreak=rpois(1,sd*m*10)
+            size_outbreak = rpois(1,sd*m)
             sou=sou+1
           }
 
@@ -266,7 +269,7 @@ simulate_seasonal_outbreak_data <-  function(data,
 
         outbreak <-rlnorm(n_cases_outbreak[i], meanlog = 0, sdlog = 0.5)
 
-        h <- hist(outbreak,breaks=seq(0,ceiling(max(outbreak)),0.1),plot=FALSE)
+        h <- hist(outbreak,breaks=seq(0,ceiling(max(outbreak)),0.05),plot=FALSE)
 
         outbreak_n <- h$counts
         duration <-start_seasonal_outbreak[i]:(start_seasonal_outbreak[i] + length(outbreak_n)-1)
@@ -290,7 +293,6 @@ simulate_seasonal_outbreak_data <-  function(data,
 
 #' Simulate spiked outbreaks ----
 #' @description
-
 #' Simulation of spiked outbreak as described in Noufaily et al. (2019). The method for simulating spiked outbreak is similar to
 #' seasonal outbreaks simulation but they are shorter in duration and are added only the last year of data (prediction data).
 #' Spiked outbreaks can start at any week during the prediction data
@@ -320,11 +322,11 @@ simulate_spike_outbreak_data <-  function(data,
   d[wday==3, weight:=1]
   d[wday==4, weight:=1]
   d[wday==5, weight:=1]
-  d[wday==6, weight:=2]
-  d[wday==7, weight:=2]
+  d[wday==6, weight:=1.5]
+  d[wday==7, weight:=1.5]
 
 
-    wtime <- (nrow(d) - 49*7) : nrow(d)
+    wtime <- (nrow(d) - 52*7) : nrow(d)
 
     time <- d[time %in% wtime]$time
 
@@ -344,7 +346,7 @@ simulate_spike_outbreak_data <-  function(data,
         while(soutbk<2){
           set.seed(sou)
           sd <- d[time == startoutbk[i]]$sd
-          soutbk=rpois(1,sd*m*10)
+          soutbk=rpois(1,sd*m)
           sou=sou+1
         }
 
