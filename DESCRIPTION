@@ -9,7 +9,7 @@ Authors@R: c(
 Description: Helps create alerts from public health surveillance data.
 Depends: R (>= 3.3.0)
 License: MIT + file LICENSE
-URL: https://www.csids.no/csalert, https://github.com/csids/csalert
+URL: https://www.csids.no/csalert/, https://github.com/csids/csalert
 BugReports: https://github.com/csids/csalert/issues
 Encoding: UTF-8
 LazyData: true
