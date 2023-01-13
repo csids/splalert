@@ -133,7 +133,7 @@ data <- baseline_with_seasonal_spike_holiday
 ## Apply Farrington Flexible algorithm for creating alerts  -->
 
 ```{r}
-out_farringtonflex <- farrington_algorithm_create_alerts(baseline_with_seasonal_spike_holiday,
+out_farringtonflex <- csalert::farrington_algorithm_create_alerts(baseline_with_seasonal_spike_holiday,
                                     method = "farrington_flexible",
                                     p = 10,
                                     b = 4,
@@ -154,7 +154,7 @@ out_farringtonflex <- farrington_algorithm_create_alerts(baseline_with_seasonal_
 ## Apply Quasipoisson Algorithm for creating alerts (sykdomspulsen algorithm)  -->
 
 ```{r}
-out_sykdomspulsen <- farrington_algorithm_create_alerts(baseline_with_seasonal_spike_holiday,
+out_sykdomspulsen <- csalert::farrington_algorithm_create_alerts(baseline_with_seasonal_spike_holiday,
                                                   b = 5,
                                                   offset = F,
                                                   reweights = 1,
