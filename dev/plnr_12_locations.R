@@ -76,7 +76,7 @@ action_fn <- function(data, argset){
   # q <- q + geom_line()
   # q <- q + labs(title = argset$location_code)
   # q
-  trend_msis <- splalert::short_term_trend(
+  trend_msis <- cslalert::short_term_trend(
     pd,
     numerator = "covid19_cases_testdate_n",
     trend_isoweeks = 6,

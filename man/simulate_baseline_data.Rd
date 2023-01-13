@@ -2,8 +2,7 @@
 % Please edit documentation in R/simulation_data_baseline.R
 \name{simulate_baseline_data}
 \alias{simulate_baseline_data}
-\title{Simulate baseline data ----
-Simulation of baseline data.}
+\title{Simulate baseline data ----}
 \usage{
 simulate_baseline_data(
   start_date,

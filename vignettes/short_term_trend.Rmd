@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 ```
 
 
-In this vignette we illustrate how to compute short term trend with `splalert::short_term_trend`. The data we use is the Covid-19 hospitalization in Norway. 
+In this vignette we illustrate how to compute short term trend with `csalert::short_term_trend`. The data we use is the Covid-19 hospitalization in Norway. 
 
 
 ```{r}
@@ -63,7 +63,7 @@ Now we run the `short_term_trend` function on weekly data.
 d_hosp_weekly <- d_hosp[granularity_time=="isoweek"]
 
 
-res <- splalert::short_term_trend(
+res <- csalert::short_term_trend(
   d_hosp_weekly, 
   numerator = "hospitalization_with_covid19_as_primary_cause_n",
   trend_isoweeks = 6,
@@ -122,7 +122,7 @@ Similarly, we can also do the analysis using daily data.
 ```{r}
 d_hosp_daily <- d_hosp[granularity_time=="day"]
 
-res <- splalert::short_term_trend(
+res <- csalert::short_term_trend(
   d_hosp_daily, 
   numerator = "hospitalization_with_covid19_as_primary_cause_n",
   trend_days = 28,

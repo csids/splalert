@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-In this vignette we illustrate how to compute short term trend with `splalert::short_term_trend`.
+In this vignette we illustrate how to compute short term trend with `csalert::short_term_trend`.
 
 ```{r}
 library(ggplot2)
@@ -98,7 +98,7 @@ d_msis_norge <- copy(d_msis[granularity_time == 'isoweek' &
                          isoyearweek >= '2021-26' &
                          location_code == 'norge'])
 
-trend_msis_norge <- splalert::short_term_trend(
+trend_msis_norge <- csalert::short_term_trend(
   d_msis_norge,
   numerator = "covid19_cases_testdate_n",
   trend_isoweeks = 6,

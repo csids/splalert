@@ -16,7 +16,7 @@ spltidy::norway_covid19_icu_and_hospitalization %>% colnames()
 
 # ________ -----
 # weekly short term trend ----
-?splalert::short_term_trend
+?cslalert::short_term_trend
 
 
 # x: data
@@ -29,7 +29,7 @@ spltidy::norway_covid19_icu_and_hospitalization %>% colnames()
 data_weekly_hosp <- spltidy::norway_covid19_icu_and_hospitalization[granularity_time=="isoweek"]
 
 
-res_weekly <- splalert::short_term_trend(
+res_weekly <- cslalert::short_term_trend(
   data_weekly_hosp,
   numerator = "hospitalization_with_covid19_as_primary_cause_n",
   trend_isoweeks = 6,
@@ -99,7 +99,7 @@ data_daily_hosp <- spltidy::norway_covid19_icu_and_hospitalization[granularity_t
 
 
 # 0-28 trend
-res_daily <- splalert::short_term_trend(
+res_daily <- csalert::short_term_trend(
   data_daily_hosp,
   numerator = "hospitalization_with_covid19_as_primary_cause_n",
   trend_days = 28,
@@ -224,7 +224,7 @@ d_msis_norge <- copy(d_msis[granularity_time == 'isoweek' &
 d_msis_norge
 
 
-trend_msis_norge <- splalert::short_term_trend(
+trend_msis_norge <- csalert::short_term_trend(
   d_msis_norge,
   numerator = "covid19_cases_testdate_n",
   trend_isoweeks = 6,

@@ -6,11 +6,12 @@
 \usage{
 simulate_seasonal_outbreak_data(
   data,
-  week_season_start = 40,
-  week_season_peak = 4,
-  week_season_end = 20,
+  week_season_start = "01",
+  week_season_peak = 1,
+  week_season_end = 1,
   n_season_outbreak = 1,
-  m = 50
+  m = 2 * 7 * 150,
+  phi = 1
 )
 }
 \arguments{

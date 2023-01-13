@@ -104,7 +104,7 @@ simulate_baseline_data <-  function(start_date,
 
 
 
-  # d <- splalert::gen_splfmt_rts_baseline_data(start_date, end_date)
+  # d <- csalert::gen_splfmt_rts_baseline_data(start_date, end_date)
 
   start_date <- as.Date(start_date)
   end_date <- as.Date(end_date)

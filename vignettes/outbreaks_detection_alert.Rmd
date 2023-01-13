@@ -1,10 +1,10 @@
 ---
-title: "Baseline data simulation with seasonal and spike outbreaks"
+title: "Apply algorithms for creating alerts"
 author: "Beatriz Valcarcel"
-date: "2022-04-20"
+date: "2023-01-12"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Baseline data simulation with seasonal and spike outbreaks}
+  %\VignetteIndexEntry{Apply algorithms for creating alerts}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -130,7 +130,10 @@ data <- baseline_with_seasonal_spike_holiday
 
 ``` 
 
-test <- farrington_algorithm_create_alerts( data,
+## Apply Farrington Flexible algorithm for creating alerts  -->
+
+```{r}
+out_farringtonflex <- farrington_algorithm_create_alerts(baseline_with_seasonal_spike_holiday,
                                     method = "farrington_flexible",
                                     p = 10,
                                     b = 4,
@@ -144,44 +147,20 @@ test <- farrington_algorithm_create_alerts( data,
                                     s = 2.58
                                     )
 
-#
-#
-# # surveillance::farringtonFlexible()
-#
-# sts <- data
-# sts[,state:=1]
-# sts <- with(data,
-#                    sts(observed = n, state = state, epoch=date,
-#                        start = c(2012, 1), frequency = 365))
-#
-# control <- list(range=(2558:2922),
-#                  noPeriods=10,populationOffset=FALSE,
-#                  fitFun="algo.farrington.fitGLM.flexible",
-#                  b=4,w=3,weightsThreshold=2.58,
-#                  pastWeeksNotIncluded=23*7,
-#                  pThresholdTrend=1,trend=TRUE,
-#                  thresholdMethod="delta",alpha=0.1,
-#                 verbose = FALSE)
-# #
-# # salm1 <- surveillance::farringtonFlexible(sts,control=control)
-# #
-# # y.max <- max(upperbound(salm1),observed(salm1),upperbound(salm1),na.rm=TRUE)
-# #
-# # plot(data, ylim=c(0,y.max), main='S. Newport in Germany', legend.opts=NULL)
-# #
-# #
-# # plot(data[2558:2922]$n, ylim=c(0,y.max), main='S. Newport in Germany', legend.opts=NULL)
-# # lines(1:(nrow(salm1)+1)-0.5,
-# #       c(upperbound(salm1),upperbound(salm1)[nrow(salm1)]),
-# #       type="s",col='tomato4',lwd=2)
-# #
-# #
-# # lines(1:(nrow(salm2)+1)-0.5,
-# #       c(upperbound(salm2),upperbound(salm2)[nrow(salm2)]),
-# #       type="s",col="blueviolet",lwd=2)
-# #
-# # legend(0, 10, legend=c('Alarm','Upperbound with old options',
-# #                        'Upperbound with new options'),
-# #        pch=c(24,NA,NA),lty=c(NA,1,1),
-# #        bg="white",lwd=c(2,2,2),col=c('red','tomato4',"blueviolet"))
-# #
+``` 
+
+
+
+## Apply Quasipoisson Algorithm for creating alerts (sykdomspulsen algorithm)  -->
+
+```{r}
+out_sykdomspulsen <- farrington_algorithm_create_alerts(baseline_with_seasonal_spike_holiday,
+                                                  b = 5,
+                                                  offset = F,
+                                                  reweights = 1,
+                                                  remove.highcounts = 0,
+                                                  is_day = T,
+                                                  s = 2.58 )
+
+``` 
+

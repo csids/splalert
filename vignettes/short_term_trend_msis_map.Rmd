@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-In this vignette we illustrate how to compute short term trend with `splalert::short_term_trend` for multiple locations, and visualize in a map. We also include labels with the number of confirmed COVID cases per 100 000 population (for each county).
+In this vignette we illustrate how to compute short term trend with `csalert::short_term_trend` for multiple locations, and visualize in a map. We also include labels with the number of confirmed COVID cases per 100 000 population (for each county).
 
 ```{r}
 library(ggplot2)
@@ -85,7 +85,7 @@ p$get_argsets_as_dt()
 
 Next we create an **action**. This allows us to develop and interact with only one data specification (e.g. `location_code == 'county03'`) without having to do explicit filtering.
 
-On this specific subset, we carry out one function like in the previous example, `splalert::shorterm_trend`. Return the result at the end of the action function.
+On this specific subset, we carry out one function like in the previous example, `csalert::shorterm_trend`. Return the result at the end of the action function.
 
 ```{r}
 # 3. action
@@ -106,7 +106,7 @@ action_fn <- function(data, argset){
   ]
 
   # function
-  trend_msis <- splalert::short_term_trend(
+  trend_msis <- csalert::short_term_trend(
     pd,
     numerator = "covid19_cases_testdate_n",
     trend_isoweeks = 6,

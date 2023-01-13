@@ -38,7 +38,7 @@ Simulation of 16 different time series of count data. Parameter values for data 
 
 
 ```{r}
-baseline_1  <- splalert::simulate_baseline_data(
+baseline_1  <- csalert::simulate_baseline_data(
                                     start_date = as.Date("2012-01-01"),
                                     end_date = as.Date("2019-12-31"),
                                     seasonal_pattern_n = 1,
@@ -57,7 +57,7 @@ baseline_1  <- splalert::simulate_baseline_data(
 
 baseline_1[,s:=1]
 
-baseline_2  <- splalert::simulate_baseline_data(
+baseline_2  <- csalert::simulate_baseline_data(
                                     start_date = as.Date("2012-01-01"),
                                     end_date = as.Date("2019-12-31"),
                                     seasonal_pattern_n = 1,
@@ -76,7 +76,7 @@ baseline_2  <- splalert::simulate_baseline_data(
 baseline_2[,s:=2]
 
 
-baseline_3  <- splalert::simulate_baseline_data(
+baseline_3  <- csalert::simulate_baseline_data(
                                     start_date = as.Date("2012-01-01"),
                                     end_date = as.Date("2019-12-31"),
                                     seasonal_pattern_n = 0,
@@ -94,7 +94,7 @@ baseline_3  <- splalert::simulate_baseline_data(
 baseline_3[,s:=3]
 
 
-baseline_4 <- splalert::simulate_baseline_data(
+baseline_4 <- csalert::simulate_baseline_data(
                                     start_date = as.Date("2012-01-01"),
                                     end_date = as.Date("2019-12-31"),
                                     seasonal_pattern_n = 0,
@@ -111,7 +111,7 @@ baseline_4 <- splalert::simulate_baseline_data(
 
 baseline_4[,s:=4]
 
-baseline_5 <- splalert::simulate_baseline_data(
+baseline_5 <- csalert::simulate_baseline_data(
                                     start_date = as.Date("2012-01-01"),
                                     end_date = as.Date("2019-12-31"),
                                     seasonal_pattern_n = 1,
@@ -129,7 +129,7 @@ baseline_5 <- splalert::simulate_baseline_data(
 baseline_5[,s:=5]
 
 
-baseline_6 <- splalert::simulate_baseline_data(
+baseline_6 <- csalert::simulate_baseline_data(
                                     start_date = as.Date("2012-01-01"),
                                     end_date = as.Date("2019-12-31"),
                                     seasonal_pattern_n = 1,
@@ -147,7 +147,7 @@ baseline_6 <- splalert::simulate_baseline_data(
 baseline_6[,s:=6]
 
 
-baseline_7 <- splalert::simulate_baseline_data(
+baseline_7 <- csalert::simulate_baseline_data(
                                     start_date = as.Date("2012-01-01"),
                                     end_date = as.Date("2019-12-31"),
                                     seasonal_pattern_n = 0,
@@ -165,7 +165,7 @@ baseline_7 <- splalert::simulate_baseline_data(
 
 baseline_7[,s:=7]
 
-baseline_8 <- splalert::simulate_baseline_data(
+baseline_8 <- csalert::simulate_baseline_data(
                                     start_date = as.Date("2012-01-01"),
                                     end_date = as.Date("2019-12-31"),
                                     seasonal_pattern_n = 1,
@@ -183,7 +183,7 @@ baseline_8 <- splalert::simulate_baseline_data(
 
 baseline_8[,s:=8]
 
-baseline_9 <- splalert::simulate_baseline_data(
+baseline_9 <- csalert::simulate_baseline_data(
                                     start_date = as.Date("2012-01-01"),
                                     end_date = as.Date("2019-12-31"),
                                     seasonal_pattern_n = 1,
@@ -201,7 +201,7 @@ baseline_9 <- splalert::simulate_baseline_data(
 baseline_9[,s:=9]
 
 
-baseline_10 <- splalert::simulate_baseline_data(
+baseline_10 <- csalert::simulate_baseline_data(
                                     start_date = as.Date("2012-01-01"),
                                     end_date = as.Date("2019-12-31"),
                                     seasonal_pattern_n = 1,
@@ -220,7 +220,7 @@ baseline_10 <- splalert::simulate_baseline_data(
 baseline_10[,s:=10]
 
 
-baseline_11 <- splalert::simulate_baseline_data(
+baseline_11 <- csalert::simulate_baseline_data(
                                     start_date = as.Date("2012-01-01"),
                                     end_date = as.Date("2019-12-31"),
                                     seasonal_pattern_n = 2,
@@ -238,7 +238,7 @@ baseline_11 <- splalert::simulate_baseline_data(
 baseline_11[,s:=11]
 
 
-baseline_12 <- splalert::simulate_baseline_data(
+baseline_12 <- csalert::simulate_baseline_data(
                                     start_date = as.Date("2012-01-01"),
                                     end_date = as.Date("2019-12-31"),
                                     seasonal_pattern_n = 2,
@@ -258,7 +258,7 @@ baseline_12[,s:=12]
 
 
 
-baseline_13 <- splalert::simulate_baseline_data(
+baseline_13 <- csalert::simulate_baseline_data(
                                     start_date = as.Date("2012-01-01"),
                                     end_date = as.Date("2019-12-31"),
                                     seasonal_pattern_n = 2,
@@ -277,7 +277,7 @@ baseline_13[,s:=13]
 
 
 
-baseline_14 <- splalert::simulate_baseline_data(
+baseline_14 <- csalert::simulate_baseline_data(
                                     start_date = as.Date("2012-01-01"),
                                     end_date = as.Date("2019-12-31"),
                                     seasonal_pattern_n = 1,
@@ -295,7 +295,7 @@ baseline_14 <- splalert::simulate_baseline_data(
 baseline_14[,s:=14]
 
 
-baseline_15 <- splalert::simulate_baseline_data(
+baseline_15 <- csalert::simulate_baseline_data(
                                     start_date = as.Date("2012-01-01"),
                                     end_date = as.Date("2019-12-31"),
                                     seasonal_pattern_n = 1,
@@ -313,7 +313,7 @@ baseline_15[,s:=15]
 
 
 
-baseline_16 <- splalert::simulate_baseline_data(
+baseline_16 <- csalert::simulate_baseline_data(
                                     start_date = as.Date("2012-01-01"),
                                     end_date = as.Date("2019-12-31"),
                                     seasonal_pattern_n = 0,
