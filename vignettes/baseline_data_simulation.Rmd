@@ -353,8 +353,8 @@ baseline[, label:=paste("Sim", s, sep=" ")]
 q <- ggplot(baseline, aes(x = date, y = n))
 q <- q + geom_line(lwd = 1)
 q <- q + facet_wrap(~s, scales = "free")
-q <- q + splstyle::scale_fill_fhi(palette = "contrast")
-q <- q + splstyle::theme_fhi_lines_horizontal(legend_position = "bottom")
+q <- q + csstyle::scale_fill_fhi(palette = "contrast")
+q <- q + csstyle::theme_fhi_lines_horizontal(legend_position = "bottom")
 q
 ```
 

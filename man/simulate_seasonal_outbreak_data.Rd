@@ -15,7 +15,7 @@ simulate_seasonal_outbreak_data(
 )
 }
 \arguments{
-\item{data}{A splfmt_rds data object}
+\item{data}{A csfmt_rds data object}
 
 \item{week_season_start}{Starting season week number}
 
@@ -28,7 +28,7 @@ simulate_seasonal_outbreak_data(
 \item{m}{Parameter to determine the size of the outbreak (m times the standard deviation of the baseline count at the starting day of the seasonal outbreak)}
 }
 \value{
-A splfmt_rts_data_v1, data.table
+A csfmt_rts_data_v1, data.table
 }
 \description{
 Simulation of seasonal outbreaks for syndromes/diseases that follows seasonal trends.

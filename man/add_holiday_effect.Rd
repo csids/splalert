@@ -7,14 +7,14 @@
 add_holiday_effect(data, holiday_data, holiday_effect = 2)
 }
 \arguments{
-\item{data}{A splfmt_rds data object}
+\item{data}{A csfmt_rds data object}
 
 \item{holiday_data}{dates}
 
 \item{holiday_effect}{Ending date of the simulation period.}
 }
 \value{
-A splfmt_rts_data_v1, data.table containing
+A csfmt_rts_data_v1, data.table containing
 }
 \description{
 The effect of public holiday on a time series of daily counts

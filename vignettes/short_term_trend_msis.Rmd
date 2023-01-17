@@ -5,8 +5,10 @@ date: "2022-05-30"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Short term trend for COVID cases Part 1 epicurve}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include = FALSE}
@@ -32,12 +34,12 @@ This dataset is extracted on 2022-05-04. The time period is from 2020-02-21 to 2
 
 The data in csv and xlsx formats can be found on our [Github repository](https://github.com/folkehelseinstituttet/surveillance_data).
 
-### Data in `spltidy` format
+### Data in `cstidy` format
 
-We have prepared the data into [spltidy format](https://docs.sykdomspulsen.no/spltidy/articles/splfmt_rts_data_v1.html), from which we can see the summary of each column, such as data type and amount of missing data.
+We have prepared the data into [cstidy format](https://docs.sykdomspulsen.no/cstidy/articles/csfmt_rts_data_v1.html), from which we can see the summary of each column, such as data type and amount of missing data.
 
 ```{r}
-d_msis <- spltidy::norway_covid19_cases_by_time_location
+d_msis <- cstidy::nor_covid19_cases_by_time_location_csfmt_rts_v1
 # check the column names
 colnames(d_msis)  
 ```
@@ -54,14 +56,14 @@ q <- ggplot(d_fylke, aes(x = isoyearweek, y = covid19_cases_testdate_n))
 q <- q + geom_line(aes(group = location_code, col = location_code),size = 2)
 q <- q + scale_y_continuous("Weekly MSIS cases",
                             expand = expansion(mult = c(0, 0.1)),
-                            labels = splstyle::format_nor_num_0)
+                            labels = csstyle::format_nor_num_0)
 
 q <- q + scale_x_discrete("Isoyearweek",
-                          breaks = splstyle::every_nth(8))
+                          breaks = csstyle::every_nth(8))
 
-q <- q + splstyle::scale_color_fhi("Location", palette = "primary")
-q <- q + splstyle::theme_fhi_lines_horizontal(legend_position = "bottom")
-q <- q + splstyle::set_x_axis_vertical()
+q <- q + csstyle::scale_color_fhi("Location", palette = "primary")
+q <- q + csstyle::theme_fhi_lines_horizontal(legend_position = "bottom")
+q <- q + csstyle::set_x_axis_vertical()
 # need watermark!!
 q
 
@@ -74,14 +76,14 @@ q <- ggplot(d_fylke, aes(x = isoyearweek, y = covid19_cases_testdate_pr100000))
 q <- q + geom_line(aes(group = location_code, col = location_code),size = 2)
 q <- q + scale_y_continuous("Weekly MSIS cases (per 100 000)",
                             expand = expansion(mult = c(0, 0.1)),
-                            labels = splstyle::format_nor_num_0)
+                            labels = csstyle::format_nor_num_0)
 
 q <- q + scale_x_discrete("Isoyearweek",
-                          breaks = splstyle::every_nth(8))
+                          breaks = csstyle::every_nth(8))
 
-q <- q + splstyle::scale_color_fhi("Location", palette = "primary")
-q <- q + splstyle::theme_fhi_lines_horizontal(legend_position = "bottom")
-q <- q + splstyle::set_x_axis_vertical()
+q <- q + csstyle::scale_color_fhi("Location", palette = "primary")
+q <- q + csstyle::theme_fhi_lines_horizontal(legend_position = "bottom")
+q <- q + csstyle::set_x_axis_vertical()
 # need watermark!!
 q
 
@@ -96,7 +98,7 @@ q
 ```{r}
 d_msis_norge <- copy(d_msis[granularity_time == 'isoweek' &
                          isoyearweek >= '2021-26' &
-                         location_code == 'norge'])
+                         location_code == 'nation_nor'])
 
 trend_msis_norge <- csalert::short_term_trend(
   d_msis_norge,
@@ -129,12 +131,12 @@ q <- q + geom_errorbar(
 )
 q <- q + scale_y_continuous("Weekly MSIS cases",
                             expand = c(0, 0.1),
-                            labels = splstyle::format_nor_num_0)
-q <- q + scale_x_discrete("Isoyearweek", breaks = splstyle::every_nth(6))
+                            labels = csstyle::format_nor_num_0)
+q <- q + scale_x_discrete("Isoyearweek", breaks = csstyle::every_nth(6))
 q <- q + expand_limits(y=0)
-q <- q + splstyle::scale_fill_fhi("6 week trend", palette = "contrast")
-q <- q + splstyle::theme_fhi_lines_horizontal(legend_position = "bottom")
-q <- q + splstyle::set_x_axis_vertical()
+q <- q + csstyle::scale_fill_fhi("6 week trend", palette = "contrast")
+q <- q + csstyle::theme_fhi_lines_horizontal(legend_position = "bottom")
+q <- q + csstyle::set_x_axis_vertical()
 q
 
 ```

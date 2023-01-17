@@ -5,8 +5,10 @@ date: "2022-04-20"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Baseline data simulation with seasonal and spike outbreaks}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include = FALSE}
@@ -47,8 +49,8 @@ baseline[,s:=15]
 q <- ggplot(baseline, aes(x = date, y = n))
 q <- q + geom_line(lwd = 1)
 q <- q + facet_wrap(~s, scales = "free")
-q <- q + splstyle::scale_fill_fhi(palette = "contrast")
-q <- q + splstyle::theme_fhi_lines_horizontal(legend_position = "bottom")
+q <- q + csstyle::scale_fill_fhi(palette = "contrast")
+q <- q + csstyle::theme_fhi_lines_horizontal(legend_position = "bottom")
 q
 
 
@@ -81,8 +83,8 @@ baseline_with_seasonal <- csalert::simulate_seasonal_outbreak_data (baseline,
     q <- q + geom_line(colour = "red")
     q <- q + geom_line(data=baseline_with_seasonal, aes(x = date, y = n - seasonal_outbreak_n_rw ))
     q <- q + facet_wrap(~s, scales = "free")
-    q <- q + splstyle::scale_fill_fhi(palette = "contrast")
-    q <- q + splstyle::theme_fhi_lines_horizontal(legend_position = "bottom")
+    q <- q + csstyle::scale_fill_fhi(palette = "contrast")
+    q <- q + csstyle::theme_fhi_lines_horizontal(legend_position = "bottom")
     q
 
 
@@ -103,8 +105,8 @@ baseline_with_seasonal_spike  <- csalert::simulate_spike_outbreak_data(baseline_
   q <- q + geom_line(colour = "green")
   q <- q + geom_line(data=baseline_with_seasonal, aes(x = date, y = n),colour = "red")
   q <- q + geom_line(data=baseline, aes(x = date, y = n))
-  q <- q + splstyle::scale_fill_fhi(palette = "contrast")
-  q <- q + splstyle::theme_fhi_lines_horizontal(legend_position = "bottom")
+  q <- q + csstyle::scale_fill_fhi(palette = "contrast")
+  q <- q + csstyle::theme_fhi_lines_horizontal(legend_position = "bottom")
   q
 
 
@@ -115,15 +117,15 @@ baseline_with_seasonal_spike  <- csalert::simulate_spike_outbreak_data(baseline_
 ```{r} 
 
 
-baseline_with_seasonal_spike_holiday  <- csalert::add_holiday_effect( baseline_with_seasonal_spike, 
-                                                               holiday_data= fhidata::norway_dates_holidays,
+baseline_with_seasonal_spike_holiday  <- csalert::add_holiday_effect( baseline_with_seasonal_spike,
+                                                                      holiday_data=cstime::nor_workdays_by_date[,.(date, is_holiday=freeday)],
                                                                holiday_effect=0.5) 
 
 baseline_with_seasonal_spike_holiday[,col:=seasonal_outbreak+sp_outbreak]
 q <- ggplot(baseline_with_seasonal_spike_holiday , aes(x = date, y = n,colour=as.factor(col))) 
 q <- q + geom_line(aes(group = 1)) 
-q <- q + splstyle::scale_fill_fhi(palette = "contrast") 
-q <- q + splstyle::theme_fhi_lines_horizontal(legend_position = "bottom")
+q <- q + csstyle::scale_fill_fhi(palette = "contrast") 
+q <- q + csstyle::theme_fhi_lines_horizontal(legend_position = "bottom")
 q 
 
 data <- baseline_with_seasonal_spike_holiday
@@ -185,3 +187,17 @@ test <- farrington_algorithm_create_alerts( data,
 # #        pch=c(24,NA,NA),lty=c(NA,1,1),
 # #        bg="white",lwd=c(2,2,2),col=c('red','tomato4',"blueviolet"))
 # #
+=======
+
+<!-- q <- ggplot(quasipoisson_alerts, aes(x = date, y = n_tot),color = as.factor(group))) -->
+<!-- q <- q + geom_line() -->
+<!-- q <- q + geom_point(quasipoisson_alerts,aes(x = date, y = n_tot)) -->
+
+<!-- q <- q + csstyle::scale_fill_fhi(palette = "contrast") -->
+<!-- q <- q + csstyle::theme_fhi_lines_horizontal(legend_position = "bottom") -->
+<!-- q -->
+
+
+<!-- ``` -->
+
+>>>>>>> main

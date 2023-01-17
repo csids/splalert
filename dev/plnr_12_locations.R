@@ -3,7 +3,7 @@
 
 library(ggplot2)
 library(data.table)
-library(splmaps)
+library(csmaps)
 
 
 # ____ plnr example ____ ----
@@ -15,7 +15,7 @@ p <- plnr::Plan$new()
 
 # 1. add data ----
 data_fn <- function(){
-  return(spltidy::covid19_msis_cases_by_time_location)
+  return(cstidy::covid19_msis_cases_by_time_location)
 }
 
 # We add sources of data
@@ -142,7 +142,7 @@ d_msis_this_isoyearweek <- res_unlisted[granularity_geo == 'county' &
 d_msis_this_isoyearweek
 # setnames(d_msis_this_isoyearweek, 'covid19_cases_testdate_pr100000', '')
 
-pd <- copy(splmaps::norway_nuts3_map_b2020_insert_oslo_dt)
+pd <- copy(csmaps::norway_nuts3_map_b2020_insert_oslo_dt)
 
 # assign each location a random category for different colors
 # location_info <- unique(pd[,c("location_code")])
@@ -180,7 +180,7 @@ q <- q + coord_quickmap()
 q <- q + theme_void()
 q <- q + labs(title=glue::glue("MSIS cases per 100k population for week ", this_isoyearweek))
 
-q <- q + splstyle::scale_fill_fhi("Category",palette = "map_seq_complete", direction = 1, drop=F)
+q <- q + csstyle::scale_fill_fhi("Category",palette = "map_seq_complete", direction = 1, drop=F)
 
 q
 q <- q + labs(caption = "Data updated 2021 week 44. Demonstration only")
@@ -194,7 +194,7 @@ q
 
 # now we add label to the map
 # which contains county name + case per 100k
-labels <- copy(splmaps::norway_nuts3_position_geolabels_b2020_insert_oslo_dt)
+labels <- copy(csmaps::norway_nuts3_position_geolabels_b2020_insert_oslo_dt)
 labels[
   d_msis_this_isoyearweek,
   on = "location_code",
@@ -202,7 +202,7 @@ labels[
 ]
 
 labels[
-  spldata::norway_locations_names_b2020,
+  csdata::norway_locations_names_b2020,
   on = "location_code",
   location_name := location_name
 ]
@@ -210,7 +210,7 @@ labels[
 
 
 # format case, remove decimal
-labels[, cases_100k := splstyle::format_nor_num_0(cases_100k)]
+labels[, cases_100k := csstyle::format_nor_num_0(cases_100k)]
 labels
 
 # put case 100k together with county name

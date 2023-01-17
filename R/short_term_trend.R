@@ -5,9 +5,9 @@ gen_data_short_term_trend <- function(){
   seasonweek <- NULL
 
 
-  d <- spltidy::splfmt_rts_data_v1(data.table(
+  d <- cstidy::csfmt_rts_data_v1(data.table(
     location_code = "norge",
-    date = do.call(c, spltime::dates_by_isoyearweek[isoyear==2020]$days),
+    date = do.call(c, cstime::dates_by_isoyearweek[isoyear==2020]$days),
     age = "total",
     sex = "total",
     border = 2020
@@ -40,7 +40,7 @@ short_term_trend_internal <- function(
   trend_variable <- NULL
 
   # check number of ts. can only process 1 for now
-  num_unique_ts <- spltidy::unique_time_series(x) %>%
+  num_unique_ts <- cstidy::unique_time_series(x) %>%
     nrow()
   if(num_unique_ts>1){
     stop("There is more than 1 time series in this dataset")
@@ -69,7 +69,7 @@ short_term_trend_internal <- function(
 
     trend_days <- trend_isoweeks * 7
     # ??
-    with_pred <- spltidy::expand_time_to(x, max_isoyearweek = spltime::date_to_isoyearweek_c(max(x$date)+forecast_isoweeks*7))
+    with_pred <- cstidy::expand_time_to(x, max_isoyearweek = cstime::date_to_isoyearweek_c(max(x$date)+forecast_isoweeks*7))
   } else {
 
 
@@ -82,7 +82,7 @@ short_term_trend_internal <- function(
     remove_last_rows <- remove_last_days
     forecast_rows <- forecast_days
 
-    with_pred <- spltidy::expand_time_to(x, max_date = max(x$date)+forecast_days)
+    with_pred <- cstidy::expand_time_to(x, max_date = max(x$date)+forecast_days)
   }
 
 
@@ -160,7 +160,7 @@ short_term_trend_internal <- function(
   trend[(length(trend)-remove_last_rows-forecast_rows+1):length(trend)] <- "forecast"
 
   #if(remove_last_days > 0) indexes <- indexes[-c(1:remove_last_days)]
-  #indexes <- indexes[which(spltime::keep_sundays_and_latest_date(x$date[indexes]) != "delete")]
+  #indexes <- indexes[which(cstime::keep_sundays_and_latest_date(x$date[indexes]) != "delete")]
   for(i in seq_len(nrow(x)-remove_last_rows)){
     index <- (i - trend_rows + 1):i
     if(min(index) < 1){
@@ -316,9 +316,9 @@ short_term_trend <- function(
   UseMethod("short_term_trend", x)
 }
 
-#' @method short_term_trend splfmt_rts_data_v1
+#' @method short_term_trend csfmt_rts_data_v1
 #' @export
-short_term_trend.splfmt_rts_data_v1 <- function(
+short_term_trend.csfmt_rts_data_v1 <- function(
   x,
   numerator,
   denominator = NULL,
@@ -350,11 +350,11 @@ short_term_trend.splfmt_rts_data_v1 <- function(
 
   stopifnot(statistics_naming_prefix %in% c("universal", "from_numerator_and_prX"))
 
-  num_unique_ts <- spltidy::unique_time_series(x, set_time_series_id = TRUE) %>%
+  num_unique_ts <- cstidy::unique_time_series(x, set_time_series_id = TRUE) %>%
     nrow()
 
   if(num_unique_ts > 1){
-    ds <- split(x, x$time_series_id)
+    ds <- csit(x, x$time_series_id)
     retval <- lapply(ds, function(y){
       y[, time_series_id := NULL]
       short_term_trend_internal(
@@ -396,7 +396,7 @@ short_term_trend.splfmt_rts_data_v1 <- function(
 
   if(remove_time_series_id & "time_series_id" %in% names(retval)) retval[, time_series_id := NULL]
 
-  spltidy::set_splfmt_rts_data_v1(retval)
+  cstidy::set_csfmt_rts_data_v1(retval)
 
   data.table::shouldPrint(retval)
 

@@ -1,6 +1,6 @@
 Package: csalert
 Title: Alerts from public health surveillance data
-Version: 2020.5.25
+Version: 2022.12.31
 Authors@R: c(
   person(c("Beatriz","Valcarcel"), "Salamanca", email = "beva@fhi.no", role = c("aut", "cre"), comment = c(ORCID = "0000-0000-0000-0000")),
   person("Chi", "Zhang", email = "andreachizhang@yahoo.com", role = c("aut"), comment = c(ORCID = "0000-0003-0501-5909")),
@@ -18,8 +18,8 @@ Imports: data.table,
     dplyr,
     ggplot2,
     glm2,
-    spltidy,
-    spltime,
+    cstidy,
+    cstime,
     stringr,
     lubridate,
     surveillance
@@ -28,9 +28,9 @@ Suggests: testthat,
     rmarkdown,
     rstudioapi,
     glue,
-    splstyle,
-    spldata,
-    splmaps,
+    csstyle,
+    csdata,
+    csmaps,
     ggrepel,
     plnr
 RoxygenNote: 7.1.2
