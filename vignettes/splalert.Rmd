@@ -1,10 +1,10 @@
 ---
-title: "Introduction to splalert"
+title: "Introduction to csalert"
 author: "Beatriz Valcarcel Salamanca"
 date: "2022-04-20"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Introduction to splalert}
+  %\VignetteIndexEntry{Introduction to csalert}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

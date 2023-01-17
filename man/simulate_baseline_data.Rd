@@ -48,7 +48,7 @@ Date is in the format of 'yyyy-mm-dd'.}
 \item{shift_1}{Horizontal shift parameter to help control over week/month peaks.}
 }
 \value{
-A splfmt_rts_data_v1, data.table containing a time series of counts
+A csfmt_rts_data_v1, data.table containing a time series of counts
 
 \describe{
   \item{wday}{day-of-the week}

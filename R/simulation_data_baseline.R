@@ -1,11 +1,11 @@
 
-# gen_splfmt_rts_baseline_data <- function(start_date,
+# gen_csfmt_rts_baseline_data <- function(start_date,
 #                                          end_date){
 #
 #   start_date <- as.Date(start_date)
 #   end_date <- as.Date(end_date)
 #
-#       d <- spltidy::splfmt_rts_data_v1(data.table(
+#       d <- cstidy::csfmt_rts_data_v1(data.table(
 #         location_code = "norge",
 #         date = seq.Date(start_date,end_date,by="day"),
 #         age = "total",
@@ -67,7 +67,7 @@ periodic_pattern <- function(n_p = 2,
 #' @param shift_1 Horizontal shift parameter to help control over week/month peaks.
 #'
 #' @return
-#' A splfmt_rts_data_v1, data.table containing a time series of counts
+#' A csfmt_rts_data_v1, data.table containing a time series of counts
 #'
 #' \describe{
 #'   \item{wday}{day-of-the week}
@@ -106,12 +106,12 @@ simulate_baseline_data <-  function(start_date,
 
 
 
-  # d <- csalert::gen_splfmt_rts_baseline_data(start_date, end_date)
+  # d <- csalert::gen_csfmt_rts_baseline_data(start_date, end_date)
 
   start_date <- as.Date(start_date)
   end_date <- as.Date(end_date)
 
-  d <- spltidy::splfmt_rts_data_v1(data.table(
+  d <- cstidy::csfmt_rts_data_v1(data.table(
         location_code = "norge",
         date = seq.Date(start_date,end_date,by="day"),
         age = "total",
@@ -183,7 +183,7 @@ simulate_baseline_data <-  function(start_date,
 #' The seasonal outbreak size (excess number of cases that occurs during the outbreak) is simulated using a poisson distribution as described in Noufaily et al. (2019).
 #'
 #' @param data
-#' A splfmt_rds data object
+#' A csfmt_rds data object
 #' @param week_season_start Starting season week number
 #' @param week_season_peak Peak of the season week number
 #' @param week_season_end Ending season week number
@@ -191,7 +191,7 @@ simulate_baseline_data <-  function(start_date,
 #' @param m Parameter to determine the size of the outbreak (m times the standard deviation of the baseline count at the starting day of the seasonal outbreak)
 
 #' @return
-#' A splfmt_rts_data_v1, data.table
+#' A csfmt_rts_data_v1, data.table
 #'
 #' @export
 
@@ -296,12 +296,12 @@ simulate_seasonal_outbreak_data <-  function(data,
 #' Spiked outbreaks can start at any week during the prediction data
 #'
 #' @param data
-#' A splfmt_rds data object
+#' A csfmt_rds data object
 #' @param n_sp_outbreak Number of spiked outbreaks to be simulated
 #' @param m Parameter to determine the size of the outbreak (m times the standard deviation of the baseline count at the starting day of the seasonal outbreak)
 #'
 #' @return
-#' A splfmt_rts_data_v1, data.table
+#' A csfmt_rts_data_v1, data.table
 #'
 #' @export
 
@@ -383,12 +383,12 @@ simulate_spike_outbreak_data <-  function(data,
 #' @description
 #' The effect of public holiday on a time series of daily counts
 #' @param data
-#' A splfmt_rds data object
+#' A csfmt_rds data object
 #' @param holiday_data dates
 #' @param holiday_effect Ending date of the simulation period.
 #'
 #' @return
-#' A splfmt_rts_data_v1, data.table containing
+#' A csfmt_rts_data_v1, data.table containing
 #'
 #' @export
 

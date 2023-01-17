@@ -3,9 +3,9 @@ library(ggplot2)
 library(data.table)
 library(magrittr)
 
-# spltidy data ----
+# cstidy data ----
 
-spltidy::norway_covid19_icu_and_hospitalization %>% colnames()
+cstidy::norway_covid19_icu_and_hospitalization %>% colnames()
 
 
 # original data:
@@ -26,7 +26,7 @@ spltidy::norway_covid19_icu_and_hospitalization %>% colnames()
 # remove_last_isoweeks (days): due to unreliable data/reporting delay
 
 
-data_weekly_hosp <- spltidy::norway_covid19_icu_and_hospitalization[granularity_time=="isoweek"]
+data_weekly_hosp <- cstidy::norway_covid19_icu_and_hospitalization[granularity_time=="isoweek"]
 
 
 res_weekly <- csalert::short_term_trend(
@@ -80,11 +80,11 @@ q <- q + geom_errorbar(
   )
 )
 q <- q + scale_y_continuous("Weekly hospitalization with Covid-19 as primary cause", expand = c(0, 0.1))
-q <- q + scale_x_discrete("Isoyearweek", breaks = splstyle::every_nth(8))
+q <- q + scale_x_discrete("Isoyearweek", breaks = csstyle::every_nth(8))
 q <- q + expand_limits(y=0)
-q <- q + splstyle::scale_fill_fhi("6 week trend", palette = "contrast")
-q <- q + splstyle::theme_fhi_lines_horizontal(legend_position = "bottom")
-q <- q + splstyle::set_x_axis_vertical()
+q <- q + csstyle::scale_fill_fhi("6 week trend", palette = "contrast")
+q <- q + csstyle::theme_fhi_lines_horizontal(legend_position = "bottom")
+q <- q + csstyle::set_x_axis_vertical()
 q
 
 
@@ -95,7 +95,7 @@ q
 # daily ----
 
 
-data_daily_hosp <- spltidy::norway_covid19_icu_and_hospitalization[granularity_time=="day"]
+data_daily_hosp <- cstidy::norway_covid19_icu_and_hospitalization[granularity_time=="day"]
 
 
 # 0-28 trend
@@ -129,9 +129,9 @@ q <- q + geom_ribbon(
   ),
   alpha = 0.75
 )
-q <- q + splstyle::scale_fill_fhi("28 days trend", palette = "contrast")
-q <- q + splstyle::theme_fhi_lines_horizontal(legend_position = "bottom")
-q <- q + splstyle::set_x_axis_vertical()
+q <- q + csstyle::scale_fill_fhi("28 days trend", palette = "contrast")
+q <- q + csstyle::theme_fhi_lines_horizontal(legend_position = "bottom")
+q <- q + csstyle::set_x_axis_vertical()
 
 q
 
@@ -141,8 +141,8 @@ q
 # q <- q + geom_rect(aes(xmin = date-1, xmax=date, ymin = 1, ymax = Inf, fill = hospitalization_with_covid19_as_primary_cause_trend0_28_status), alpha = 0.5)
 # q <- q + geom_line(lwd = 1)
 # q <- q + scale_y_continuous(trans = "log10", expand = c(0, 0.1))
-# q <- q + splstyle::scale_fill_fhi(palette = "contrast")
-# q <- q + splstyle::theme_fhi_lines_horizontal(legend_position = "bottom")
+# q <- q + csstyle::scale_fill_fhi(palette = "contrast")
+# q <- q + csstyle::theme_fhi_lines_horizontal(legend_position = "bottom")
 # q
 
 
@@ -153,7 +153,7 @@ q
 # msis cases examples ----
 
 
-d_msis <- spltidy::covid19_msis_cases_by_time_location
+d_msis <- cstidy::covid19_msis_cases_by_time_location
 colnames(d_msis)
 
 # show geogranularity and location code
@@ -180,14 +180,14 @@ q <- ggplot(d_fylke, aes(x = isoyearweek, y = covid19_cases_testdate_n))
 q <- q + geom_line(aes(group = location_code, col = location_code),size = 2)
 q <- q + scale_y_continuous("Weekly MSIS cases",
                             expand = expansion(mult = c(0, 0.1)),
-                            labels = splstyle::format_nor_num_0)
+                            labels = csstyle::format_nor_num_0)
 
 q <- q + scale_x_discrete("Isoyearweek",
-                          breaks = splstyle::every_nth(8))
+                          breaks = csstyle::every_nth(8))
 
-q <- q + splstyle::scale_color_fhi("Location", palette = "primary")
-q <- q + splstyle::theme_fhi_lines_horizontal(legend_position = "bottom")
-q <- q + splstyle::set_x_axis_vertical()
+q <- q + csstyle::scale_color_fhi("Location", palette = "primary")
+q <- q + csstyle::theme_fhi_lines_horizontal(legend_position = "bottom")
+q <- q + csstyle::set_x_axis_vertical()
 # need watermark!!
 q
 
@@ -199,14 +199,14 @@ q <- ggplot(d_fylke, aes(x = isoyearweek, y = covid19_cases_testdate_pr100000))
 q <- q + geom_line(aes(group = location_code, col = location_code),size = 2)
 q <- q + scale_y_continuous("Weekly MSIS cases (per 100 000)",
                             expand = expansion(mult = c(0, 0.1)),
-                            labels = splstyle::format_nor_num_0)
+                            labels = csstyle::format_nor_num_0)
 
 q <- q + scale_x_discrete("Isoyearweek",
-                          breaks = splstyle::every_nth(8))
+                          breaks = csstyle::every_nth(8))
 
-q <- q + splstyle::scale_color_fhi("Location", palette = "primary")
-q <- q + splstyle::theme_fhi_lines_horizontal(legend_position = "bottom")
-q <- q + splstyle::set_x_axis_vertical()
+q <- q + csstyle::scale_color_fhi("Location", palette = "primary")
+q <- q + csstyle::theme_fhi_lines_horizontal(legend_position = "bottom")
+q <- q + csstyle::set_x_axis_vertical()
 # need watermark!!
 q
 
@@ -255,12 +255,12 @@ q <- q + geom_errorbar(
 )
 q <- q + scale_y_continuous("Weekly MSIS cases",
                             expand = c(0, 0.1),
-                            labels = splstyle::format_nor_num_0)
-q <- q + scale_x_discrete("Isoyearweek", breaks = splstyle::every_nth(6))
+                            labels = csstyle::format_nor_num_0)
+q <- q + scale_x_discrete("Isoyearweek", breaks = csstyle::every_nth(6))
 q <- q + expand_limits(y=0)
-q <- q + splstyle::scale_fill_fhi("6 week trend", palette = "contrast")
-q <- q + splstyle::theme_fhi_lines_horizontal(legend_position = "bottom")
-q <- q + splstyle::set_x_axis_vertical()
+q <- q + csstyle::scale_fill_fhi("6 week trend", palette = "contrast")
+q <- q + csstyle::theme_fhi_lines_horizontal(legend_position = "bottom")
+q <- q + csstyle::set_x_axis_vertical()
 q
 
 
