@@ -96,6 +96,7 @@ prep_data_farrighton_flexible <- function(data,
 #' @param remove.highcounts
 #' @param is_day
 #' @param s
+#' @export
 
 
 farrington_algorithm_create_alerts <- function( data,
