@@ -103,8 +103,8 @@ baseline_with_seasonal_spike  <- csalert::simulate_spike_outbreak_data(baseline_
   q <- q + geom_line(colour = "green")
   q <- q + geom_line(data=baseline_with_seasonal, aes(x = date, y = n),colour = "red")
   q <- q + geom_line(data=baseline, aes(x = date, y = n))
-  q <- q + splstyle::scale_fill_fhi(palette = "contrast")
-  q <- q + splstyle::theme_fhi_lines_horizontal(legend_position = "bottom")
+  q <- q + csstyle::scale_fill_fhi(palette = "contrast")
+  q <- q + csstyle::theme_fhi_lines_horizontal(legend_position = "bottom")
   q
 
 
