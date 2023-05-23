@@ -1,7 +1,7 @@
 ---
 title: "Short term trend"
 author: "Richard Aubrey White, Chi Zhang"
-date: "2022-05-05"
+date: "2023-05-23"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Short term trend}
@@ -18,9 +18,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-
-In this vignette we illustrate how to compute short term trend with `csalert::short_term_trend`. The data we use is the Covid-19 hospitalization in Norway. 
-
+In this vignette we illustrate how to compute short term trend with `csalert::short_term_trend`.
 
 ```{r}
 library(ggplot2)
@@ -28,7 +26,9 @@ library(data.table)
 library(magrittr)
 ```
 
-## Covid-19 Hospitalization data
+## Single location
+
+### Covid-19 Hospitalization data
 
 The Covid-19 hospitalization data contains both daily and weekly aggregated number of hospitalization due to Covid (as a main cause) for Norway. The data does not distinguish age groups or sex. 
 
@@ -43,33 +43,21 @@ We have prepared the data into [cstidy format](https://docs.sykdomspulsen.no/cst
 
 ```{r}
 d_hosp <- cstidy::nor_covid19_icu_and_hospitalization_csfmt_rts_v1
-# check the column names
-colnames(d_hosp)  
-
 d_hosp
 ```
 
-
-
-
-
-
-
-
-
-## Weekly observations
+### Weekly observations
 
 Now we run the `short_term_trend` function on weekly data. 
 
 ```{r}
-d_hosp_weekly <- d_hosp[granularity_time=="isoweek"]
-
+d_hosp_weekly <- d_hosp[granularity_time=="isoyearweek"]
 
 res <- csalert::short_term_trend(
   d_hosp_weekly, 
   numerator = "hospitalization_with_covid19_as_primary_cause_n",
-  trend_isoweeks = 6,
-  remove_last_isoweeks = 1
+  trend_isoyearweeks = 6,
+  remove_last_isoyearweeks = 1
 )
 
 # create the trend label
@@ -84,19 +72,32 @@ colnames(res)
 
 
 We can check some columns that have been added to the original data. 
+
 ```{r}
 # check some columns 
-res[, .(date, 
-        hospitalization_with_covid19_as_primary_cause_n, 
-        hospitalization_with_covid19_as_primary_cause_forecasted_n,         hospitalization_with_covid19_as_primary_cause_trend0_42_status)]
+res[
+  ,
+  .(
+    date, 
+    hospitalization_with_covid19_as_primary_cause_n, 
+    hospitalization_with_covid19_as_primary_cause_forecasted_n,
+    hospitalization_with_covid19_as_primary_cause_trend0_42_status
+  )
+]
 ```
 
-We can visualize the trend indicator with different colors. We use [csstyle](https://docs.sykdomspulsen.no/csstyle/) customized ggplot2 syntax for standardized graphic styles. 
-
+We can visualize the trend indicator with different colors.
 
 ```{r}
-q <- ggplot(res, aes(x = isoyearweek, y = hospitalization_with_covid19_as_primary_cause_forecasted_n, group = 1))
-q <- q + geom_col(mapping = aes(fill = hospitalization_with_covid19_as_primary_cause_trend0_42_status ))
+q <- ggplot(
+  res, 
+  aes(
+    x = isoyearweek, 
+    y = hospitalization_with_covid19_as_primary_cause_forecasted_n,
+    group = 1
+  )
+)
+q <- q + geom_col(mapping = aes(fill = hospitalization_with_covid19_as_primary_cause_trend0_42_status))
 q <- q + geom_errorbar(
   mapping = aes(
     ymin = hospitalization_with_covid19_as_primary_cause_forecasted_predinterval_q02x5_n,
@@ -106,29 +107,22 @@ q <- q + geom_errorbar(
 q <- q + scale_y_continuous("Weekly hospitalization with Covid-19 as primary cause", expand = c(0, 0.1))
 q <- q + scale_x_discrete("Isoyearweek", breaks = csstyle::every_nth(8))
 q <- q + expand_limits(y=0)
-q <- q + csstyle::scale_fill_fhi("6 week trend", palette = "contrast")
-q <- q + csstyle::theme_fhi_lines_horizontal(legend_position = "bottom")
-q <- q + csstyle::set_x_axis_vertical()
+q <- q + scale_fill_brewer("6 week trend", palette = "Set1")
 q
 ```
 
-
-
-
-
-
-## Daily observations
+### Daily observations
 
 Similarly, we can also do the analysis using daily data.
 
 ```{r}
-d_hosp_daily <- d_hosp[granularity_time=="day"]
+d_hosp_daily <- d_hosp[granularity_time=="date"]
 
 res <- csalert::short_term_trend(
   d_hosp_daily, 
   numerator = "hospitalization_with_covid19_as_primary_cause_n",
-  trend_days = 28,
-  remove_last_days = 7
+  trend_dates = 28,
+  remove_last_dates = 7
 )
 res[, hospitalization_with_covid19_as_primary_cause_trend0_28_status := factor(
   hospitalization_with_covid19_as_primary_cause_trend0_28_status,
@@ -138,10 +132,17 @@ res[, hospitalization_with_covid19_as_primary_cause_trend0_28_status := factor(
 
 ```
 
-
 We can also visualize this trend figure.
+
 ```{r}
-q <- ggplot(data = res, mapping = aes(x = date, y = hospitalization_with_covid19_as_primary_cause_forecasted_n, fill = hospitalization_with_covid19_as_primary_cause_trend0_28_status))
+q <- ggplot(
+  data = res, 
+  mapping = aes(
+    x = date, 
+    y = hospitalization_with_covid19_as_primary_cause_forecasted_n, 
+    fill = hospitalization_with_covid19_as_primary_cause_trend0_28_status
+  )
+)
 q <- q + geom_col(alpha = 0) # necessary to get legend to be in right order
 q <- q + geom_col(
   data = res[hospitalization_with_covid19_as_primary_cause_trend0_28_status!="Forecast"]
@@ -155,26 +156,78 @@ q <- q + geom_ribbon(
   alpha = 0.75
 )
 q <- q + scale_y_continuous("Daily hospitalization with Covid-19 as primary cause", expand = c(0, 0.1))
-q <- q + scale_x_date("Date", date_breaks = "28 days", date_labels = "%y-%m-%d")
+q <- q + scale_x_date("Date", date_breaks = "6 months", date_labels = "%y-%m-%d")
 # q <- q + scale_x_discrete(breaks = csstyle::every_nth(8))
 q <- q + expand_limits(y=0)
 
-q <- q + csstyle::scale_fill_fhi("28 days trend", palette = "contrast")
-q <- q + csstyle::theme_fhi_lines_horizontal(legend_position = "bottom")
-q <- q + csstyle::set_x_axis_vertical()
+q <- q + scale_fill_brewer("28 days trend", palette = "Set1")
 q
 ```
-
 
 Another way to visualize trend
 
 ```{r}
-q <- ggplot(res, aes(x = date, y = hospitalization_with_covid19_as_primary_cause_doublingdays0_28))
-q <- q + geom_rect(aes(xmin = date-1, xmax=date, ymin = 1, ymax = Inf, fill = hospitalization_with_covid19_as_primary_cause_trend0_28_status), alpha = 0.5)
+q <- ggplot(
+  res, 
+  aes(
+    x = date, 
+    y = hospitalization_with_covid19_as_primary_cause_doublingdates0_28
+  )
+)
+q <- q + geom_rect(
+  aes(
+    xmin = date-1, 
+    xmax=date, 
+    ymin = 1,
+    ymax = Inf, 
+    fill = hospitalization_with_covid19_as_primary_cause_trend0_28_status
+  ), 
+  alpha = 0.5
+)
 q <- q + geom_line(lwd = 1)
 q <- q + scale_y_continuous(trans = "log10", expand = c(0, 0.1))
-q <- q + csstyle::scale_fill_fhi(palette = "contrast")
-q <- q + csstyle::theme_fhi_lines_horizontal(legend_position = "bottom")
+q <- q + scale_fill_brewer(NULL, palette = "Set1")
 q
-
 ```
+
+## Multiple locations
+
+```{r}
+d <- cstidy::nor_covid19_cases_by_time_location_csfmt_rts_v1[
+  granularity_time == "isoyearweek" & 
+  granularity_geo == "county"
+]
+
+trend <- csalert::short_term_trend(
+  d,
+  numerator = "covid19_cases_testdate_n",
+  trend_isoyearweeks = 6,
+  remove_last_isoyearweeks = 1
+)
+
+print(trend)
+```
+
+```{r}
+pd <- copy(csmaps::nor_county_map_b2020_split_dt)
+pd[
+  trend[isoyearweek == "2021-44"],
+  on = c("location_code"),
+  covid19_cases_testdate_trend0_42_status := covid19_cases_testdate_trend0_42_status
+]
+
+# plot map
+q <- ggplot()
+q <- q + geom_polygon(
+  data = pd,
+  mapping = aes(x = long, y = lat, group = group,fill=covid19_cases_testdate_trend0_42_status),
+  color="black",
+  linewidth = 0.2
+)
+q <- q + coord_quickmap()
+q <- q + theme_void()
+q <- q + labs(title="MSIS cases per 100k population for week 2021-44")
+q <- q + scale_fill_brewer("Covid trends", palette = "Set1", direction = -1)
+q
+```
+

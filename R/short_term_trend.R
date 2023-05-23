@@ -17,18 +17,22 @@ gen_data_short_term_trend <- function(){
   return(d)
 }
 
+# x = d_msis[granularity_geo=="nation" & granularity_time=="isoyearweek"]
+# numerator = "covid19_cases_testdate_n"
+# trend_isoyearweeks = 6
+# remove_last_isoyearweeks = 1
 
 short_term_trend_internal <- function(
   x,
   numerator,
   denominator = NULL,
   prX = 100,
-  trend_days = 42,
-  remove_last_days = 0,
-  forecast_days = trend_days,
-  trend_isoweeks = ceiling(trend_days / 7),
-  remove_last_isoweeks = ceiling(remove_last_days / 7),
-  forecast_isoweeks = trend_isoweeks,
+  trend_dates = 42,
+  remove_last_dates = 0,
+  forecast_dates = trend_dates,
+  trend_isoyearweeks = ceiling(trend_dates / 7),
+  remove_last_isoyearweeks = ceiling(remove_last_dates / 7),
+  forecast_isoyearweeks = trend_isoyearweeks,
   numerator_naming_prefix = "from_numerator",
   denominator_naming_prefix = "from_denominator",
   statistics_naming_prefix = "universal",
@@ -46,10 +50,10 @@ short_term_trend_internal <- function(
     stop("There is more than 1 time series in this dataset")
   }
 
-  # check granularity time. can only do day and isoweek
+  # check granularity time. can only do date and isoyearweek
   gran_time <- x$granularity_time[1]
-  if(!gran_time %in% c("day", "isoweek")){
-    stop("granularity_time is not day or isoweek")
+  if(!gran_time %in% c("date", "isoyearweek")){
+    stop("granularity_time is not date or isoyearweek")
   }
 
 
@@ -58,31 +62,31 @@ short_term_trend_internal <- function(
   # create with_pred
 
   # if we have weekly data, then multiply everything by 7
-  if(gran_time=="isoweek"){
+  if(gran_time=="isoyearweek"){
     # must have more than 6 weeks data
-    if(trend_isoweeks < 6){
-      stop("trend_isoweeks must be >= 6 when granularity_time is isoweek")
+    if(trend_isoyearweeks < 6){
+      stop("trend_isoyearweeks must be >= 6 when granularity_time is isoyearweek")
     }
-    trend_rows <- trend_isoweeks
-    remove_last_rows <- remove_last_isoweeks
-    forecast_rows <- forecast_isoweeks
+    trend_rows <- trend_isoyearweeks
+    remove_last_rows <- remove_last_isoyearweeks
+    forecast_rows <- forecast_isoyearweeks
 
-    trend_days <- trend_isoweeks * 7
+    trend_dates <- trend_isoyearweeks * 7
     # ??
-    with_pred <- cstidy::expand_time_to(x, max_isoyearweek = cstime::date_to_isoyearweek_c(max(x$date)+forecast_isoweeks*7))
+    with_pred <- cstidy::expand_time_to(x, max_isoyearweek = cstime::date_to_isoyearweek_c(max(x$date)+forecast_isoyearweeks*7))
   } else {
 
 
 
     # daily
-    if(trend_days < 14){
-      stop("trend_days must be >= 14 days when granularity_time is day")
+    if(trend_dates < 14){
+      stop("trend_dates must be >= 14 dates when granularity_time is date")
     }
-    trend_rows <- trend_days
-    remove_last_rows <- remove_last_days
-    forecast_rows <- forecast_days
+    trend_rows <- trend_dates
+    remove_last_rows <- remove_last_dates
+    forecast_rows <- forecast_dates
 
-    with_pred <- cstidy::expand_time_to(x, max_date = max(x$date)+forecast_days)
+    with_pred <- cstidy::expand_time_to(x, max_date = max(x$date)+forecast_dates)
   }
 
 
@@ -119,11 +123,11 @@ short_term_trend_internal <- function(
     varname_forecast_predinterval_q97x5_prX <- paste0(prefix, "_forecasted_predinterval_q97x5_pr", formatC(prX, format="f", digits = 0))
 
     if(statistics_naming_prefix=="universal"){
-      varname_trend <- paste0(prefix, "_trend0_",trend_days, "_status")
-      varname_days_to_double <- paste0(prefix, "_doublingdays0_",trend_days)
+      varname_trend <- paste0(prefix, "_trend0_",trend_dates, "_status")
+      varname_dates_to_double <- paste0(prefix, "_doublingdates0_",trend_dates)
     } else {
-      varname_trend <- paste0(prefix, "_trend0_",trend_days, "_pr", formatC(prX, format="f", digits = 0), "_status")
-      varname_days_to_double <- paste0(prefix, "_doublingdays0_",trend_days, "_pr", formatC(prX, format="f", digits = 0))
+      varname_trend <- paste0(prefix, "_trend0_",trend_dates, "_pr", formatC(prX, format="f", digits = 0), "_status")
+      varname_dates_to_double <- paste0(prefix, "_doublingdates0_",trend_dates, "_pr", formatC(prX, format="f", digits = 0))
     }
 
     varname_forecast <- c(
@@ -132,11 +136,11 @@ short_term_trend_internal <- function(
     )
   } else {
     if(statistics_naming_prefix=="universal"){
-      varname_trend <- paste0(prefix, "_trend0_",trend_days, "_status")
-      varname_days_to_double <- paste0(prefix, "_doublingdays0_",trend_days)
+      varname_trend <- paste0(prefix, "_trend0_",trend_dates, "_status")
+      varname_dates_to_double <- paste0(prefix, "_doublingdates0_",trend_dates)
     } else {
-      varname_trend <- paste0(prefix, "_trend0_",trend_days, suffix, "_status")
-      varname_days_to_double <- paste0(prefix, "_doublingdays0_",trend_days, suffix)
+      varname_trend <- paste0(prefix, "_trend0_",trend_dates, suffix, "_status")
+      varname_dates_to_double <- paste0(prefix, "_doublingdates0_",trend_dates, suffix)
     }
 
     varname_forecast <- paste0(varname_forecast_numerator, "_forecast")
@@ -159,8 +163,8 @@ short_term_trend_internal <- function(
   trend[1:(trend_rows-1)] <- "training"
   trend[(length(trend)-remove_last_rows-forecast_rows+1):length(trend)] <- "forecast"
 
-  #if(remove_last_days > 0) indexes <- indexes[-c(1:remove_last_days)]
-  #indexes <- indexes[which(cstime::keep_sundays_and_latest_date(x$date[indexes]) != "delete")]
+  #if(remove_last_dates > 0) indexes <- indexes[-c(1:remove_last_dates)]
+  #indexes <- indexes[which(cstime::keep_sundates_and_latest_date(x$date[indexes]) != "delete")]
   for(i in seq_len(nrow(x)-remove_last_rows)){
     index <- (i - trend_rows + 1):i
     if(min(index) < 1){
@@ -212,9 +216,9 @@ short_term_trend_internal <- function(
           trend[i] <- "increasing"
         }
       }
-      doubling_time[i] <- nrow(with_pred)*log(2)/co # remember to scale it so that it is per day!!
-      if(gran_time=="isoweek"){
-        doubling_time[i] <- doubling_time[i]*7 # remember to scale it so that it is per day!!
+      doubling_time[i] <- nrow(with_pred)*log(2)/co # remember to scale it so that it is per date!!
+      if(gran_time=="isoyearweek"){
+        doubling_time[i] <- doubling_time[i]*7 # remember to scale it so that it is per date!!
       }
     },error = function(e){
       warning("Error in fitting model")
@@ -274,7 +278,7 @@ short_term_trend_internal <- function(
   with_pred[, to_be_forecasted := NULL]
 
   with_pred[, (varname_trend) := trend]
-  with_pred[, (varname_days_to_double) := round(doubling_time,1)]
+  with_pred[, (varname_dates_to_double) := round(doubling_time,1)]
 
   if(remove_training_data) with_pred <- with_pred[-(1:(trend_rows-1))]
 
@@ -286,28 +290,28 @@ short_term_trend_internal <- function(
 #' @param numerator Character of name of numerator
 #' @param denominator Character of name of denominator (optional)
 #' @param prX If using denominator, what scaling factor should be used for numerator/denominator?
-#' @param trend_days Number of days you want to check the trend
-#' @param remove_last_days Number of days you want to remove at the end (due to unreliable data)
-#' @param forecast_days Number of days you want to forecast into the future
-#' @param trend_isoweeks Same as trend_days, but used if granularity_geo=='isoweek'
-#' @param remove_last_isoweeks Same as remove_last_days, but used if granularity_geo=='isoweek'
-#' @param forecast_isoweeks Same as forecast_days, but used if granularity_geo=='isoweek'
+#' @param trend_dates Number of dates you want to check the trend
+#' @param remove_last_dates Number of dates you want to remove at the end (due to unreliable data)
+#' @param forecast_dates Number of dates you want to forecast into the future
+#' @param trend_isoyearweeks Same as trend_dates, but used if granularity_geo=='isoyearweek'
+#' @param remove_last_isoyearweeks Same as remove_last_dates, but used if granularity_geo=='isoyearweek'
+#' @param forecast_isoyearweeks Same as forecast_dates, but used if granularity_geo=='isoyearweek'
 #' @param numerator_naming_prefix "from_numerator", "generic", or a custom prefix
 #' @param denominator_naming_prefix "from_denominator", "generic", or a custom prefix
-#' @param statistics_naming_prefix "universal" (one variable for trend status, one variable for doubling days), "from_numerator_and_prX" (If denominator is NULL, then one variable corresponding to numerator. If denominator exists, then one variable for each of the prXs)
-#' @param remove_training_data Boolean. If TRUE, removes the training data (i.e. 1:(trend_days-1) or 1:(trend_isoweeks-1)) from the returned dataset.
+#' @param statistics_naming_prefix "universal" (one variable for trend status, one variable for doubling dates), "from_numerator_and_prX" (If denominator is NULL, then one variable corresponding to numerator. If denominator exists, then one variable for each of the prXs)
+#' @param remove_training_data Boolean. If TRUE, removes the training data (i.e. 1:(trend_dates-1) or 1:(trend_isoyearweeks-1)) from the returned dataset.
 #' @export
 short_term_trend <- function(
   x,
   numerator,
   denominator = NULL,
   prX = 100,
-  trend_days = 42,
-  remove_last_days = 0,
-  forecast_days = trend_days,
-  trend_isoweeks = ceiling(trend_days / 7),
-  remove_last_isoweeks = ceiling(remove_last_days / 7),
-  forecast_isoweeks = trend_isoweeks,
+  trend_dates = 42,
+  remove_last_dates = 0,
+  forecast_dates = trend_dates,
+  trend_isoyearweeks = ceiling(trend_dates / 7),
+  remove_last_isoyearweeks = ceiling(remove_last_dates / 7),
+  forecast_isoyearweeks = trend_isoyearweeks,
   numerator_naming_prefix = "from_numerator",
   denominator_naming_prefix = "from_denominator",
   statistics_naming_prefix = "universal",
@@ -323,12 +327,12 @@ short_term_trend.csfmt_rts_data_v1 <- function(
   numerator,
   denominator = NULL,
   prX = 100,
-  trend_days = 42,
-  remove_last_days = 0,
-  forecast_days = trend_days,
-  trend_isoweeks = ceiling(trend_days / 7),
-  remove_last_isoweeks = ceiling(remove_last_days / 7),
-  forecast_isoweeks = trend_isoweeks,
+  trend_dates = 42,
+  remove_last_dates = 0,
+  forecast_dates = trend_dates,
+  trend_isoyearweeks = ceiling(trend_dates / 7),
+  remove_last_isoyearweeks = ceiling(remove_last_dates / 7),
+  forecast_isoyearweeks = trend_isoyearweeks,
   numerator_naming_prefix = "from_numerator",
   denominator_naming_prefix = "from_denominator",
   statistics_naming_prefix = "universal",
@@ -354,7 +358,7 @@ short_term_trend.csfmt_rts_data_v1 <- function(
     nrow()
 
   if(num_unique_ts > 1){
-    ds <- csit(x, x$time_series_id)
+    ds <- split(x, x$time_series_id)
     retval <- lapply(ds, function(y){
       y[, time_series_id := NULL]
       short_term_trend_internal(
@@ -362,12 +366,12 @@ short_term_trend.csfmt_rts_data_v1 <- function(
         numerator = numerator,
         denominator = denominator,
         prX = prX,
-        trend_days = trend_days,
-        remove_last_days = remove_last_days,
-        forecast_days = forecast_days,
-        trend_isoweeks = trend_isoweeks,
-        remove_last_isoweeks = remove_last_isoweeks,
-        forecast_isoweeks = forecast_isoweeks,
+        trend_dates = trend_dates,
+        remove_last_dates = remove_last_dates,
+        forecast_dates = forecast_dates,
+        trend_isoyearweeks = trend_isoyearweeks,
+        remove_last_isoyearweeks = remove_last_isoyearweeks,
+        forecast_isoyearweeks = forecast_isoyearweeks,
         numerator_naming_prefix = numerator_naming_prefix,
         denominator_naming_prefix = denominator_naming_prefix,
         statistics_naming_prefix = statistics_naming_prefix,
@@ -381,12 +385,12 @@ short_term_trend.csfmt_rts_data_v1 <- function(
       numerator = numerator,
       denominator = denominator,
       prX = prX,
-      trend_days = trend_days,
-      remove_last_days = remove_last_days,
-      forecast_days = forecast_days,
-      trend_isoweeks = trend_isoweeks,
-      remove_last_isoweeks = remove_last_isoweeks,
-      forecast_isoweeks = forecast_isoweeks,
+      trend_dates = trend_dates,
+      remove_last_dates = remove_last_dates,
+      forecast_dates = forecast_dates,
+      trend_isoyearweeks = trend_isoyearweeks,
+      remove_last_isoyearweeks = remove_last_isoyearweeks,
+      forecast_isoyearweeks = forecast_isoyearweeks,
       numerator_naming_prefix = numerator_naming_prefix,
       denominator_naming_prefix = denominator_naming_prefix,
       statistics_naming_prefix = statistics_naming_prefix,
