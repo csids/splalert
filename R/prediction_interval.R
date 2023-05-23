@@ -24,33 +24,58 @@ prediction_interval.glm <- function(object, newdata, alpha = 0.05, z = NULL, ske
   stopifnot(skewness_transform %in% c("none", "1/2", "2/3"))
 
 
+  tryCatch({
+    pred <- stats::predict(object, newdata, type = "response", se.fit = T)
 
-  pred <- stats::predict(object, newdata, type = "response", se.fit = T)
+    mu0 <- pred$fit
+    phi <- summary(object)$dispersion
 
-  mu0 <- pred$fit
-  phi <- summary(object)$dispersion
+    tau <- phi + (pred$se.fit^2) / mu0
+    switch(skewness_transform, none = {
+      se <- sqrt(mu0 * tau)
+      exponent <- 1
+    }, `1/2` = {
+      se <- sqrt(1 / 4 * tau)
+      exponent <- 1 / 2
+    }, `2/3` = {
+      se <- sqrt(4 / 9 * mu0^(1 / 3) * tau)
+      exponent <- 2 / 3
+    }, {
+      stop("No proper exponent in prediction_interval.glm")
+    })
 
-  tau <- phi + (pred$se.fit^2) / mu0
-  switch(skewness_transform, none = {
-    se <- sqrt(mu0 * tau)
-    exponent <- 1
-  }, `1/2` = {
-    se <- sqrt(1 / 4 * tau)
-    exponent <- 1 / 2
-  }, `2/3` = {
-    se <- sqrt(4 / 9 * mu0^(1 / 3) * tau)
-    exponent <- 2 / 3
-  }, {
-    stop("No proper exponent in prediction_interval.glm")
+    if (is.null(z)) z <- stats::qnorm(1 - alpha / 2)
+    lower <- (mu0^exponent - z * se)^(1 / exponent)
+    upper <- (mu0^exponent + z * se)^(1 / exponent)
+
+    return(
+      data.table(
+        lower = lower,
+        point = mu0,
+        upper = upper
+      )
+    )
+  },
+  warning = function(cond){
+    return(
+      data.table(
+        lower = rep(NA_real_, nrow(newdata)),
+        point = rep(NA_real_, nrow(newdata)),
+        upper = rep(NA_real_, nrow(newdata))
+      )
+    )
+  },
+  error = function(cond){
+    return(
+      data.table(
+        lower = rep(NA_real_, nrow(newdata)),
+        point = rep(NA_real_, nrow(newdata)),
+        upper = rep(NA_real_, nrow(newdata))
+      )
+    )
   })
-
-  if (is.null(z)) z <- stats::qnorm(1 - alpha / 2)
-  lower <- (mu0^exponent - z * se)^(1 / exponent)
-  upper <- (mu0^exponent + z * se)^(1 / exponent)
-
-  return(data.table(
-    lower = lower,
-    point = mu0,
-    upper = upper
-  ))
 }
+
+
+
+
