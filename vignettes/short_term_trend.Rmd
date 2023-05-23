@@ -105,7 +105,7 @@ q <- q + geom_errorbar(
   )
 )
 q <- q + scale_y_continuous("Weekly hospitalization with Covid-19 as primary cause", expand = c(0, 0.1))
-q <- q + scale_x_discrete("Isoyearweek", breaks = csstyle::every_nth(8))
+q <- q + scale_x_discrete("Isoyearweek")
 q <- q + expand_limits(y=0)
 q <- q + scale_fill_brewer("6 week trend", palette = "Set1")
 q
@@ -157,7 +157,6 @@ q <- q + geom_ribbon(
 )
 q <- q + scale_y_continuous("Daily hospitalization with Covid-19 as primary cause", expand = c(0, 0.1))
 q <- q + scale_x_date("Date", date_breaks = "6 months", date_labels = "%y-%m-%d")
-# q <- q + scale_x_discrete(breaks = csstyle::every_nth(8))
 q <- q + expand_limits(y=0)
 
 q <- q + scale_fill_brewer("28 days trend", palette = "Set1")
