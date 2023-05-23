@@ -178,7 +178,7 @@ short_term_trend_internal <- function(
       training_data[get(varname_forecast_denominator)==0, (varname_forecast_denominator) := 1]
 
       formula_denominator <- glue::glue("{varname_forecast_denominator} ~ trend_variable")
-      tryCatch({
+      try({
         # qp model
         model_denominator <- glm2::glm2(
           stats::as.formula(formula_denominator),
@@ -186,19 +186,15 @@ short_term_trend_internal <- function(
           family = stats::quasipoisson(link = "log")
         )
       },
-      warning = function(w){
-        model_denominator <- NULL
-      },
-      error = function(e){
-        model_denominator <- NULL
-      })
+        silent = T
+      )
 
       formula <- glue::glue("{formula} + offset(log({varname_forecast_denominator}))")
     }
 
     # model for data with num only
     model <- NULL
-    tryCatch({
+    try({
       model <- glm2::glm2(
         stats::as.formula(formula),
         data = training_data,
@@ -223,12 +219,8 @@ short_term_trend_internal <- function(
         doubling_time[i] <- doubling_time[i]*7 # remember to scale it so that it is per date!!
       }
     },
-    warning = function(w){
-      warning("Error in fitting model")
-    },
-    error = function(e){
-      warning("Error in fitting model")
-    })
+      silent = T
+    )
   }
   trend <- factor(trend, levels = c("training", "forecast", "decreasing", "null", "increasing"))
 
