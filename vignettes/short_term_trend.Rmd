@@ -170,7 +170,7 @@ q <- ggplot(
   res, 
   aes(
     x = date, 
-    y = hospitalization_with_covid19_as_primary_cause_doublingdates0_28
+    y = hospitalization_with_covid19_as_primary_cause_doublingdays0_28
   )
 )
 q <- q + geom_rect(

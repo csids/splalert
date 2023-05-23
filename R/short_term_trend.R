@@ -124,10 +124,10 @@ short_term_trend_internal <- function(
 
     if(statistics_naming_prefix=="universal"){
       varname_trend <- paste0(prefix, "_trend0_",trend_dates, "_status")
-      varname_dates_to_double <- paste0(prefix, "_doublingdates0_",trend_dates)
+      varname_dates_to_double <- paste0(prefix, "_doublingdays0_",trend_dates)
     } else {
       varname_trend <- paste0(prefix, "_trend0_",trend_dates, "_pr", formatC(prX, format="f", digits = 0), "_status")
-      varname_dates_to_double <- paste0(prefix, "_doublingdates0_",trend_dates, "_pr", formatC(prX, format="f", digits = 0))
+      varname_dates_to_double <- paste0(prefix, "_doublingdays0_",trend_dates, "_pr", formatC(prX, format="f", digits = 0))
     }
 
     varname_forecast <- c(
@@ -137,10 +137,10 @@ short_term_trend_internal <- function(
   } else {
     if(statistics_naming_prefix=="universal"){
       varname_trend <- paste0(prefix, "_trend0_",trend_dates, "_status")
-      varname_dates_to_double <- paste0(prefix, "_doublingdates0_",trend_dates)
+      varname_dates_to_double <- paste0(prefix, "_doublingdays0_",trend_dates)
     } else {
       varname_trend <- paste0(prefix, "_trend0_",trend_dates, suffix, "_status")
-      varname_dates_to_double <- paste0(prefix, "_doublingdates0_",trend_dates, suffix)
+      varname_dates_to_double <- paste0(prefix, "_doublingdays0_",trend_dates, suffix)
     }
 
     varname_forecast <- paste0(varname_forecast_numerator, "_forecast")
