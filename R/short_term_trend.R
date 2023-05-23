@@ -56,8 +56,6 @@ short_term_trend_internal <- function(
     stop("granularity_time is not date or isoyearweek")
   }
 
-
-
   # weekly vs daily
   # create with_pred
 
@@ -75,8 +73,6 @@ short_term_trend_internal <- function(
     # ??
     with_pred <- cstidy::expand_time_to(x, max_isoyearweek = cstime::date_to_isoyearweek_c(max(x$date)+forecast_isoyearweeks*7))
   } else {
-
-
 
     # daily
     if(trend_dates < 14){
@@ -184,14 +180,18 @@ short_term_trend_internal <- function(
       formula_denominator <- glue::glue("{varname_forecast_denominator} ~ trend_variable")
       tryCatch({
         # qp model
-        model_denominator <- glm2::glm2(stats::as.formula(formula_denominator),
-                                        data = training_data,
-                                        family = stats::quasipoisson(link = "log"))
+        model_denominator <- glm2::glm2(
+          stats::as.formula(formula_denominator),
+          data = training_data,
+          family = stats::quasipoisson(link = "log")
+        )
+      },
+      warning = function(w){
+        model_denominator <- NULL
       },
       error = function(e){
         model_denominator <- NULL
       })
-
 
       formula <- glue::glue("{formula} + offset(log({varname_forecast_denominator}))")
     }
@@ -199,9 +199,11 @@ short_term_trend_internal <- function(
     # model for data with num only
     model <- NULL
     tryCatch({
-      model <- glm2::glm2(stats::as.formula(formula),
-                          data = training_data,
-                          family = stats::quasipoisson(link = "log"))
+      model <- glm2::glm2(
+        stats::as.formula(formula),
+        data = training_data,
+        family = stats::quasipoisson(link = "log")
+      )
 
       # determine the trend based on beta
       vals <- stats::coef(summary(model))
@@ -220,13 +222,15 @@ short_term_trend_internal <- function(
       if(gran_time=="isoyearweek"){
         doubling_time[i] <- doubling_time[i]*7 # remember to scale it so that it is per date!!
       }
-    },error = function(e){
+    },
+    warning = function(w){
       warning("Error in fitting model")
-    }
-    )
+    },
+    error = function(e){
+      warning("Error in fitting model")
+    })
   }
   trend <- factor(trend, levels = c("training", "forecast", "decreasing", "null", "increasing"))
-
 
   # prediction interval
   if(is.null(model) | (!is.null(denominator) & is.null(model_denominator))){
