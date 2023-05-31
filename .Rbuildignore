@@ -7,3 +7,6 @@ license.md
 dev
 ^doc$
 ^Meta$
+@eaDir
+.DS_Store
+^CRAN-SUBMISSION$

@@ -1,13 +1,13 @@
 Package: csalert
-Title: Alerts from public health surveillance data
-Version: 2022.12.31
+Title: Alerts from Public Health Surveillance Data
+Version: 2023.5.31
 Authors@R: c(
-  person(c("Beatriz","Valcarcel"), "Salamanca", email = "beva@fhi.no", role = c("aut", "cre"), comment = c(ORCID = "0000-0000-0000-0000")),
+  person(c("Beatriz","Valcarcel"), "Salamanca", email = "beva@fhi.no", role = c("aut"), comment = c(ORCID = "0000-0000-0000-0000")),
   person("Chi", "Zhang", email = "andreachizhang@yahoo.com", role = c("aut"), comment = c(ORCID = "0000-0003-0501-5909")),
-  person(c("Richard","Aubrey"), "White", email = "hello@rwhite.no", role = c("aut"), comment = c(ORCID = "0000-0002-6747-1726")),
+  person(c("Richard","Aubrey"), "White", email = "hello@rwhite.no", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-6747-1726")),
   person("CSIDS", email = "hello@csids.no", role = c("cph"))
   )
-Description: Helps create alerts from public health surveillance data.
+Description: Helps create alerts and determine trends by using various methods to analyze public health surveillance data.
 Depends: R (>= 3.3.0)
 License: MIT + file LICENSE
 URL: https://www.csids.no/csalert/, https://github.com/csids/csalert

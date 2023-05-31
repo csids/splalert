@@ -4,8 +4,6 @@
 
 [csalert](https://www.csids.no/csalert/) helps create alerts from public health surveillance data.
 
-Read the introduction vignette [here](http://www.csids.no/csalert/articles/csalert.html) or run `help(package="csalert")`.
-
 ## csverse
 
 <a href="https://www.csids.no/packages.html"><img src="https://www.csids.no/packages/csverse.png" align="right" width="120" /></a>
