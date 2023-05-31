@@ -290,6 +290,7 @@ short_term_trend_internal <- function(
 }
 
 #' Determine the short term trend
+#' The method is based upon a published analytics strategy by Benedetti (2019) <doi:10.5588/pha.19.0002>.
 #' @param x Data object
 #' @param numerator Character of name of numerator
 #' @param denominator Character of name of denominator (optional)

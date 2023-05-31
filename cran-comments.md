@@ -1,4 +1,7 @@
-## Submission
+## Resubmission
+
+- Fixed URL
+- Included method reference in the Description field: Benedetti (2019) <doi:10.5588/pha.19.0002>
 
 ## Test environments
 

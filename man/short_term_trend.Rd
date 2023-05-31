@@ -2,7 +2,8 @@
 % Please edit documentation in R/short_term_trend.R
 \name{short_term_trend}
 \alias{short_term_trend}
-\title{Determine the short term trend}
+\title{Determine the short term trend
+The method is based upon a published analytics strategy by Benedetti (2019) <doi:10.5588/pha.19.0002>.}
 \usage{
 short_term_trend(
   x,
@@ -52,4 +53,5 @@ short_term_trend(
 }
 \description{
 Determine the short term trend
+The method is based upon a published analytics strategy by Benedetti (2019) <doi:10.5588/pha.19.0002>.
 }
