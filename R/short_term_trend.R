@@ -293,6 +293,18 @@ short_term_trend_internal <- function(
 #'
 #' The method is based upon a published analytics strategy by Benedetti (2019) <doi:10.5588/pha.19.0002>.
 #' @param x Data object
+#' @param ... Not in use.
+#' @rdname short_term_trend
+#' @export
+short_term_trend <- function(
+  x,
+ ...
+){
+  UseMethod("short_term_trend", x)
+}
+
+#' @method short_term_trend csfmt_rts_data_v1
+#' @rdname short_term_trend
 #' @param numerator Character of name of numerator
 #' @param denominator Character of name of denominator (optional)
 #' @param prX If using denominator, what scaling factor should be used for numerator/denominator?
@@ -306,29 +318,7 @@ short_term_trend_internal <- function(
 #' @param denominator_naming_prefix "from_denominator", "generic", or a custom prefix
 #' @param statistics_naming_prefix "universal" (one variable for trend status, one variable for doubling dates), "from_numerator_and_prX" (If denominator is NULL, then one variable corresponding to numerator. If denominator exists, then one variable for each of the prXs)
 #' @param remove_training_data Boolean. If TRUE, removes the training data (i.e. 1:(trend_dates-1) or 1:(trend_isoyearweeks-1)) from the returned dataset.
-#' @rdname short_term_trend
-#' @export
-short_term_trend <- function(
-  x,
-  numerator,
-  denominator = NULL,
-  prX = 100,
-  trend_dates = 42,
-  remove_last_dates = 0,
-  forecast_dates = trend_dates,
-  trend_isoyearweeks = ceiling(trend_dates / 7),
-  remove_last_isoyearweeks = ceiling(remove_last_dates / 7),
-  forecast_isoyearweeks = trend_isoyearweeks,
-  numerator_naming_prefix = "from_numerator",
-  denominator_naming_prefix = "from_denominator",
-  statistics_naming_prefix = "universal",
-  remove_training_data = FALSE
-){
-  UseMethod("short_term_trend", x)
-}
-
-#' @method short_term_trend csfmt_rts_data_v1
-#' @rdname short_term_trend
+#' @param ... Not in use.
 #' @returns csfmt_rts_data_v1 data set with extra columns. \*_trend\*_status contains a factor with levels c("training", "forecast", "decreasing", "null", "increasing"), while \*_doublingdays\* contains the expected number of days before the numerator doubles.
 #' @examples
 #' d <- cstidy::csfmt_rts_data_v1(covidnor::total_b2020)
@@ -354,7 +344,8 @@ short_term_trend.csfmt_rts_data_v1 <- function(
   numerator_naming_prefix = "from_numerator",
   denominator_naming_prefix = "from_denominator",
   statistics_naming_prefix = "universal",
-  remove_training_data = FALSE
+  remove_training_data = FALSE,
+  ...
   ){
 
   time_series_id <- NULL

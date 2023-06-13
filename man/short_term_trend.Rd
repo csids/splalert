@@ -5,22 +5,7 @@
 \alias{short_term_trend.csfmt_rts_data_v1}
 \title{Determine the short term trend of a timeseries}
 \usage{
-short_term_trend(
-  x,
-  numerator,
-  denominator = NULL,
-  prX = 100,
-  trend_dates = 42,
-  remove_last_dates = 0,
-  forecast_dates = trend_dates,
-  trend_isoyearweeks = ceiling(trend_dates/7),
-  remove_last_isoyearweeks = ceiling(remove_last_dates/7),
-  forecast_isoyearweeks = trend_isoyearweeks,
-  numerator_naming_prefix = "from_numerator",
-  denominator_naming_prefix = "from_denominator",
-  statistics_naming_prefix = "universal",
-  remove_training_data = FALSE
-)
+short_term_trend(x, ...)
 
 \method{short_term_trend}{csfmt_rts_data_v1}(
   x,
@@ -36,11 +21,14 @@ short_term_trend(
   numerator_naming_prefix = "from_numerator",
   denominator_naming_prefix = "from_denominator",
   statistics_naming_prefix = "universal",
-  remove_training_data = FALSE
+  remove_training_data = FALSE,
+  ...
 )
 }
 \arguments{
 \item{x}{Data object}
+
+\item{...}{Not in use.}
 
 \item{numerator}{Character of name of numerator}
 
