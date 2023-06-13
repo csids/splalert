@@ -63,10 +63,10 @@ The original csfmt_rts_data_v1 dataset with extra columns. *_trend*_status conta
 The method is based upon a published analytics strategy by Benedetti (2019) <doi:10.5588/pha.19.0002>.
 }
 \examples{
-d <- cstidy::csfmt_rts_data_v1(
-  covidnor::total_b2020[
+d <- covidnor::total_b2020[
   granularity_time=="isoyearweek" & granularity_geo=="nation"
-][1:40])
+]
+d <- d[1:40,]
 res <- csalert::short_term_trend(
   d,
   numerator = "hospital_admissions_main_cause_n",
