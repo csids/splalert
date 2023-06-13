@@ -326,6 +326,7 @@ short_term_trend <- function(
 }
 
 #' @method short_term_trend csfmt_rts_data_v1
+#' @returns csfmt_rts_data_v1 data set with extra columns. \*_trend\*_status contains a factor with levels c("training", "forecast", "decreasing", "null", "increasing"), while \*_doublingdays\* contains the expected number of days before the numerator doubles.
 #' @export
 short_term_trend.csfmt_rts_data_v1 <- function(
   x,

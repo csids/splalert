@@ -20,6 +20,9 @@ Maintainer: 'Richard Aubrey White <hello@rwhite.no>'
 
 New submission
 
+Possibly misspelled words in DESCRIPTION:
+  Benedetti (10:200)
+
 ## Downstream dependencies
 
 none
