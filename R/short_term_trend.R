@@ -324,13 +324,13 @@ short_term_trend <- function(
 #' d <- cstidy::csfmt_rts_data_v1(
 #'   covidnor::total_b2020[
 #'   granularity_time=="isoyearweek" & granularity_geo=="nation"
-#' ])
+#' ][1:40])
 #' res <- csalert::short_term_trend(
 #'   d,
 #'   numerator = "hospital_admissions_main_cause_n",
 #'   trend_isoyearweeks = 6
 #' )
-#' print(res[40:60, .(
+#' print(res[, .(
 #'   isoyearweek,
 #'   hospital_admissions_main_cause_n,
 #'   hospital_admissions_main_cause_trend0_42_status
