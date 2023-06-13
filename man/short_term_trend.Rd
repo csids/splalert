@@ -57,7 +57,7 @@ short_term_trend(x, ...)
 \item{remove_training_data}{Boolean. If TRUE, removes the training data (i.e. 1:(trend_dates-1) or 1:(trend_isoyearweeks-1)) from the returned dataset.}
 }
 \value{
-csfmt_rts_data_v1 data set with extra columns. *_trend*_status contains a factor with levels c("training", "forecast", "decreasing", "null", "increasing"), while *_doublingdays* contains the expected number of days before the numerator doubles.
+The original csfmt_rts_data_v1 dataset with extra columns. *_trend*_status contains a factor with levels c("training", "forecast", "decreasing", "null", "increasing"), while *_doublingdays* contains the expected number of days before the numerator doubles.
 }
 \description{
 The method is based upon a published analytics strategy by Benedetti (2019) <doi:10.5588/pha.19.0002>.
