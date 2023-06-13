@@ -2,10 +2,28 @@
 % Please edit documentation in R/short_term_trend.R
 \name{short_term_trend}
 \alias{short_term_trend}
+\alias{short_term_trend.csfmt_rts_data_v1}
 \title{Determine the short term trend
 The method is based upon a published analytics strategy by Benedetti (2019) <doi:10.5588/pha.19.0002>.}
 \usage{
 short_term_trend(
+  x,
+  numerator,
+  denominator = NULL,
+  prX = 100,
+  trend_dates = 42,
+  remove_last_dates = 0,
+  forecast_dates = trend_dates,
+  trend_isoyearweeks = ceiling(trend_dates/7),
+  remove_last_isoyearweeks = ceiling(remove_last_dates/7),
+  forecast_isoyearweeks = trend_isoyearweeks,
+  numerator_naming_prefix = "from_numerator",
+  denominator_naming_prefix = "from_denominator",
+  statistics_naming_prefix = "universal",
+  remove_training_data = FALSE
+)
+
+\method{short_term_trend}{csfmt_rts_data_v1}(
   x,
   numerator,
   denominator = NULL,
@@ -51,7 +69,20 @@ short_term_trend(
 
 \item{remove_training_data}{Boolean. If TRUE, removes the training data (i.e. 1:(trend_dates-1) or 1:(trend_isoyearweeks-1)) from the returned dataset.}
 }
+\value{
+csfmt_rts_data_v1 data set with extra columns. \*_trend\*_status contains a factor with levels c("training", "forecast", "decreasing", "null", "increasing"), while \*_doublingdays\* contains the expected number of days before the numerator doubles.
+}
 \description{
 Determine the short term trend
 The method is based upon a published analytics strategy by Benedetti (2019) <doi:10.5588/pha.19.0002>.
+}
+\examples{
+d <- cstidy::csfmt_rts_data_v1(covidnor::total_b2020)
+d <- d[granularity_time=="isoyearweek" & granularity_geo=="nation"]
+res <- csalert::short_term_trend(
+  d,
+  numerator = "hospital_admissions_main_cause_n",
+  trend_isoyearweeks = 6
+)
+print(res[40:60, .(isoyearweek, hospital_admissions_main_cause_n, hospital_admissions_main_cause_trend0_42_status)])
 }

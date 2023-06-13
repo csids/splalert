@@ -1,7 +1,8 @@
 ## Resubmission
 
-- Fixed URL
-- Included method reference in the Description field: Benedetti (2019) <doi:10.5588/pha.19.0002>
+- Included \value to .Rd files
+- Removed set.seed()
+- Included examples
 
 ## Test environments
 

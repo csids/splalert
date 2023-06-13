@@ -1,4 +1,4 @@
-gen_data_short_term_trend <- function(){
+gen_data_short_term_trend <- function(seed = 4){
 
   isoyear <- NULL
   cases_n <- NULL
@@ -12,7 +12,7 @@ gen_data_short_term_trend <- function(){
     sex = "total",
     border = 2020
   ))
-  set.seed(4)
+  # set.seed(4)
   d[, cases_n := stats::rpois(.N, lambda = seasonweek*4)]
   return(d)
 }
@@ -305,6 +305,7 @@ short_term_trend_internal <- function(
 #' @param denominator_naming_prefix "from_denominator", "generic", or a custom prefix
 #' @param statistics_naming_prefix "universal" (one variable for trend status, one variable for doubling dates), "from_numerator_and_prX" (If denominator is NULL, then one variable corresponding to numerator. If denominator exists, then one variable for each of the prXs)
 #' @param remove_training_data Boolean. If TRUE, removes the training data (i.e. 1:(trend_dates-1) or 1:(trend_isoyearweeks-1)) from the returned dataset.
+#' @rdname short_term_trend
 #' @export
 short_term_trend <- function(
   x,
@@ -326,7 +327,17 @@ short_term_trend <- function(
 }
 
 #' @method short_term_trend csfmt_rts_data_v1
+#' @rdname short_term_trend
 #' @returns csfmt_rts_data_v1 data set with extra columns. \*_trend\*_status contains a factor with levels c("training", "forecast", "decreasing", "null", "increasing"), while \*_doublingdays\* contains the expected number of days before the numerator doubles.
+#' @examples
+#' d <- cstidy::csfmt_rts_data_v1(covidnor::total_b2020)
+#' d <- d[granularity_time=="isoyearweek" & granularity_geo=="nation"]
+#' res <- csalert::short_term_trend(
+#'   d,
+#'   numerator = "hospital_admissions_main_cause_n",
+#'   trend_isoyearweeks = 6
+#' )
+#' print(res[40:60, .(isoyearweek, hospital_admissions_main_cause_n, hospital_admissions_main_cause_trend0_42_status)])
 #' @export
 short_term_trend.csfmt_rts_data_v1 <- function(
   x,
