@@ -319,7 +319,7 @@ short_term_trend <- function(
 #' @param statistics_naming_prefix "universal" (one variable for trend status, one variable for doubling dates), "from_numerator_and_prX" (If denominator is NULL, then one variable corresponding to numerator. If denominator exists, then one variable for each of the prXs)
 #' @param remove_training_data Boolean. If TRUE, removes the training data (i.e. 1:(trend_dates-1) or 1:(trend_isoyearweeks-1)) from the returned dataset.
 #' @param ... Not in use.
-#' @returns csfmt_rts_data_v1 data set with extra columns. \*_trend\*_status contains a factor with levels c("training", "forecast", "decreasing", "null", "increasing"), while \*_doublingdays\* contains the expected number of days before the numerator doubles.
+#' @returns csfmt_rts_data_v1 data set with extra columns. *_trend*_status contains a factor with levels c("training", "forecast", "decreasing", "null", "increasing"), while *_doublingdays* contains the expected number of days before the numerator doubles.
 #' @examples
 #' d <- cstidy::csfmt_rts_data_v1(covidnor::total_b2020)
 #' d <- d[granularity_time=="isoyearweek" & granularity_geo=="nation"]
