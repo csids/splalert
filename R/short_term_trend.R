@@ -289,7 +289,8 @@ short_term_trend_internal <- function(
   return(with_pred)
 }
 
-#' Determine the short term trend
+#' Determine the short term trend of a timeseries
+#'
 #' The method is based upon a published analytics strategy by Benedetti (2019) <doi:10.5588/pha.19.0002>.
 #' @param x Data object
 #' @param numerator Character of name of numerator

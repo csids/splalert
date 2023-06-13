@@ -3,8 +3,7 @@
 \name{short_term_trend}
 \alias{short_term_trend}
 \alias{short_term_trend.csfmt_rts_data_v1}
-\title{Determine the short term trend
-The method is based upon a published analytics strategy by Benedetti (2019) <doi:10.5588/pha.19.0002>.}
+\title{Determine the short term trend of a timeseries}
 \usage{
 short_term_trend(
   x,
@@ -73,7 +72,6 @@ short_term_trend(
 csfmt_rts_data_v1 data set with extra columns. \*_trend\*_status contains a factor with levels c("training", "forecast", "decreasing", "null", "increasing"), while \*_doublingdays\* contains the expected number of days before the numerator doubles.
 }
 \description{
-Determine the short term trend
 The method is based upon a published analytics strategy by Benedetti (2019) <doi:10.5588/pha.19.0002>.
 }
 \examples{
