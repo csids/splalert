@@ -70,7 +70,6 @@ q
 ## Add seasonal outbreaks
 
 ```{r}
-rm(baseline_with_seasonal)
 baseline_with_seasonal <- csalert::simulate_seasonal_outbreak_data (baseline,
                                                            week_season_start = 40,
                                                            week_season_peak = 4,
