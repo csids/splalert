@@ -94,7 +94,7 @@ baseline_with_seasonal <- csalert::simulate_seasonal_outbreak_data (baseline,
 
 ## Add spikeoutbreak
 
-```{r}
+```{r eval=FALSE}
 baseline_with_seasonal_spike  <- csalert::simulate_spike_outbreak_data(baseline_with_seasonal,
                                                                         n_sp_outbreak=1,
                                                                         m = 15)
@@ -113,7 +113,7 @@ baseline_with_seasonal_spike  <- csalert::simulate_spike_outbreak_data(baseline_
 
 ## Add holiday effect  -->
 
-```{r} 
+```{r eval=FALSE}
 
 
 baseline_with_seasonal_spike_holiday  <- csalert::add_holiday_effect( baseline_with_seasonal_spike, 
