@@ -321,19 +321,17 @@ short_term_trend <- function(
 #' @param ... Not in use.
 #' @returns The original csfmt_rts_data_v1 dataset with extra columns. *_trend*_status contains a factor with levels c("training", "forecast", "decreasing", "null", "increasing"), while *_doublingdays* contains the expected number of days before the numerator doubles.
 #' @examples
-#' d <- covidnor::total_b2020[
-#'   granularity_time=="isoyearweek" & granularity_geo=="nation"
-#' ]
-#' d <- d[1:40,]
+#' d <- cstidy::nor_covid19_icu_and_hospitalization_csfmt_rts_v1
+#' d <- d[granularity_time=="isoyearweek"]
 #' res <- csalert::short_term_trend(
 #'   d,
-#'   numerator = "hospital_admissions_main_cause_n",
+#'   numerator = "hospitalization_with_covid19_as_primary_cause_n",
 #'   trend_isoyearweeks = 6
 #' )
 #' print(res[, .(
 #'   isoyearweek,
-#'   hospital_admissions_main_cause_n,
-#'   hospital_admissions_main_cause_trend0_42_status
+#'   hospitalization_with_covid19_as_primary_cause_n,
+#'   hospitalization_with_covid19_as_primary_cause_trend0_42_status
 #' )])
 #' @export
 short_term_trend.csfmt_rts_data_v1 <- function(

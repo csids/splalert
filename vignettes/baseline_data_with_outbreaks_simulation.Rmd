@@ -50,8 +50,8 @@ baseline[,s:=15]
 q <- ggplot(baseline, aes(x = date, y = n))
 q <- q + geom_line(lwd = 1)
 q <- q + facet_wrap(~s, scales = "free")
-q <- q + csstyle::scale_fill_fhi(palette = "contrast")
-q <- q + csstyle::theme_fhi_lines_horizontal(legend_position = "bottom")
+q <- q + csstyle::scale_fill_cs(palette = "posneg")
+q <- q + csstyle::theme_cs(legend_position = "bottom")
 q
 
 
@@ -84,8 +84,8 @@ baseline_with_seasonal <- csalert::simulate_seasonal_outbreak_data (baseline,
     q <- q + geom_line(colour = "red")
     q <- q + geom_line(data=baseline_with_seasonal, aes(x = date, y = n - seasonal_outbreak_n_rw ))
     q <- q + facet_wrap(~s, scales = "free")
-    q <- q + csstyle::scale_fill_fhi(palette = "contrast")
-    q <- q + csstyle::theme_fhi_lines_horizontal(legend_position = "bottom")
+    q <- q + csstyle::scale_fill_cs(palette = "posneg")
+    q <- q + csstyle::theme_cs(legend_position = "bottom")
     q
 
 
@@ -105,8 +105,8 @@ baseline_with_seasonal_spike  <- csalert::simulate_spike_outbreak_data(baseline_
   q <- q + geom_line(colour = "green")
   q <- q + geom_line(data=baseline_with_seasonal, aes(x = date, y = n),colour = "red")
   q <- q + geom_line(data=baseline, aes(x = date, y = n))
-  q <- q + csstyle::scale_fill_fhi(palette = "contrast")
-  q <- q + csstyle::theme_fhi_lines_horizontal(legend_position = "bottom")
+  q <- q + csstyle::scale_fill_cs(palette = "posneg")
+  q <- q + csstyle::theme_cs(legend_position = "bottom")
   q
 
 
@@ -124,8 +124,8 @@ baseline_with_seasonal_spike_holiday  <- csalert::add_holiday_effect( baseline_w
 baseline_with_seasonal_spike_holiday[,col:=seasonal_outbreak+sp_outbreak]
 q <- ggplot(baseline_with_seasonal_spike_holiday , aes(x = date, y = n,colour=as.factor(col))) 
 q <- q + geom_line(aes(group = 1)) 
-q <- q + csstyle::scale_fill_fhi(palette = "contrast") 
-q <- q + csstyle::theme_fhi_lines_horizontal(legend_position = "bottom")
+q <- q + csstyle::scale_fill_cs(palette = "posneg") 
+q <- q + csstyle::theme_cs(legend_position = "bottom")
 q 
 
 ``` 
@@ -146,8 +146,8 @@ q
 <!-- q <- q + geom_line() -->
 <!-- q <- q + geom_point(quasipoisson_alerts,aes(x = date, y = n_tot)) -->
 
-<!-- q <- q + csstyle::scale_fill_fhi(palette = "contrast") -->
-<!-- q <- q + csstyle::theme_fhi_lines_horizontal(legend_position = "bottom") -->
+<!-- q <- q + csstyle::scale_fill_cs(palette = "posneg") -->
+<!-- q <- q + csstyle::theme_cs(legend_position = "bottom") -->
 <!-- q -->
 
 

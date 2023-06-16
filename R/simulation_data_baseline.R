@@ -232,6 +232,7 @@ simulate_seasonal_outbreak_data <-  function(data,
 
   print(years_out)
 
+  d[, seasonal_outbreak := 0]
   d[, seasonal_outbreak_n:=0]
   d[, seasonal_outbreak_n_rw:=0]
 
@@ -279,8 +280,6 @@ simulate_seasonal_outbreak_data <-  function(data,
       }
 
   }
-
-  d[is.na(seasonal_outbreak), seasonal_outbreak:=0]
 
   d[, n := n + seasonal_outbreak_n_rw]
   return(d)
