@@ -1,22 +1,22 @@
-# Prediction thresholds
-# @param object Object
-# @param newdata New data
-# @param alpha Two-sided alpha (e.g 0.05)
-# @param z Similar to \code{alpha} (e.g. z=1.96 is the same as alpha=0.05)
-# @param ... dots
+#' Prediction thresholds
+#' @param object Object
+#' @param newdata New data
+#' @param alpha Two-sided alpha (e.g 0.05)
+#' @param z Similar to \code{alpha} (e.g. z=1.96 is the same as alpha=0.05)
+#' @param ... dots
 prediction_interval <- function(object, newdata, alpha = 0.05, z = NULL, ...){
   UseMethod("prediction_interval", object)
 }
 
 
-# Prediction thresholds
-# @param object Object
-# @param newdata New data
-# @param alpha Two-sided alpha (e.g 0.05)
-# @param z Similar to \code{alpha} (e.g. z=1.96 is the same as alpha=0.05)
-# @param skewness_transform "none", "1/2", "2/3"
-# @param ... dots
-# @method prediction_interval glm
+#' Prediction thresholds
+#' @param object Object
+#' @param newdata New data
+#' @param alpha Two-sided alpha (e.g 0.05)
+#' @param z Similar to \code{alpha} (e.g. z=1.96 is the same as alpha=0.05)
+#' @param skewness_transform "none", "1/2", "2/3"
+#' @param ... dots
+#' @method prediction_interval glm
 prediction_interval.glm <- function(object, newdata, alpha = 0.05, z = NULL, skewness_transform = "none", ...){
   stopifnot(object$family$family %in% c("poisson", "quasipoisson"))
   stopifnot(skewness_transform %in% c("none", "1/2", "2/3"))

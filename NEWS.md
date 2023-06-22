@@ -1,3 +1,7 @@
+# Version 2023.6.22
+
+- First inclusion of signal_detection_hlm.
+
 # Version 2023.5.23
 
 - Updating to be in line with the latest cstidy version.
