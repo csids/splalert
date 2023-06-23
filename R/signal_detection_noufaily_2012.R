@@ -24,7 +24,7 @@ gen_data_signal_detection_noufaily_2012 <- function(seed = 4){
 # trend_isoyearweeks = 6
 # remove_last_isoyearweeks = 1
 
-short_term_trend_internal <- function(
+signal_detection_noufaily_2012_internal <- function(
   x,
   numerator,
   denominator = NULL,
@@ -300,17 +300,17 @@ short_term_trend_internal <- function(
 #' The method is based upon a published analytics strategy by Benedetti (2019) <doi:10.5588/pha.19.0002>.
 #' @param x Data object
 #' @param ... Not in use.
-#' @rdname short_term_trend
+#' @rdname signal_detection_noufaily_2012
 #' @export
-short_term_trend <- function(
+signal_detection_noufaily_2012 <- function(
   x,
  ...
 ){
-  UseMethod("short_term_trend", x)
+  UseMethod("signal_detection_noufaily_2012", x)
 }
 
-#' @method short_term_trend csfmt_rts_data_v1
-#' @rdname short_term_trend
+#' @method signal_detection_noufaily_2012 csfmt_rts_data_v1
+#' @rdname signal_detection_noufaily_2012
 #' @param numerator Character of name of numerator
 #' @param denominator Character of name of denominator (optional)
 #' @param prX If using denominator, what scaling factor should be used for numerator/denominator?
@@ -340,7 +340,7 @@ short_term_trend <- function(
 #'   hospitalization_with_covid19_as_primary_cause_trend0_42_status
 #' )])
 #' @export
-short_term_trend.csfmt_rts_data_v1 <- function(
+signal_detection_noufaily_2012.csfmt_rts_data_v1 <- function(
   x,
   numerator,
   denominator = NULL,
