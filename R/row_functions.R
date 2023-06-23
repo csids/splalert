@@ -1,4 +1,6 @@
-row_mean <- rowMeans
+row_mean <- function(x, na.rm = FALSE, dims = 1L){
+  rowMeans(x, na.rm, dims)
+}
 
 row_sd <- function(x, na.rm=F) {
   # Vectorised version of variance filter
