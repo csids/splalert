@@ -105,6 +105,8 @@ short_term_trend_internal <- function(
     prefix_denom <- denominator_naming_prefix
   }
 
+  prefix_pr100 <- paste0(prefix,"_vs_", prefix_denom)
+
   # create forecast var names (num, denom)
   varname_forecast_numerator <- paste0(prefix, "_forecasted", suffix)
   varname_forecast_predinterval_q02x5_numerator <- paste0(prefix, "_forecasted_predinterval_q02x5", suffix)
@@ -113,17 +115,17 @@ short_term_trend_internal <- function(
   if(!is.null(denominator)){
     varname_forecast_denominator <- paste0(prefix_denom, "_forecasted", suffix)
 
-    varname_forecast_prX <- paste0(prefix, "_forecasted_pr", formatC(prX, format="f", digits = 0))
-    varname_forecast_prX_is_forecast <- paste0(prefix, "_forecasted_pr", formatC(prX, format="f", digits = 0),"_forecast")
-    varname_forecast_predinterval_q02x5_prX <- paste0(prefix, "_forecasted_predinterval_q02x5_pr", formatC(prX, format="f", digits = 0))
-    varname_forecast_predinterval_q97x5_prX <- paste0(prefix, "_forecasted_predinterval_q97x5_pr", formatC(prX, format="f", digits = 0))
+    varname_forecast_prX <- paste0(prefix_pr100, "_forecasted_pr", formatC(prX, format="f", digits = 0))
+    varname_forecast_prX_is_forecast <- paste0(prefix_pr100, "_forecasted_pr", formatC(prX, format="f", digits = 0),"_forecast")
+    varname_forecast_predinterval_q02x5_prX <- paste0(prefix_pr100, "_forecasted_predinterval_q02x5_pr", formatC(prX, format="f", digits = 0))
+    varname_forecast_predinterval_q97x5_prX <- paste0(prefix_pr100, "_forecasted_predinterval_q97x5_pr", formatC(prX, format="f", digits = 0))
 
     if(statistics_naming_prefix=="universal"){
-      varname_trend <- paste0(prefix, "_trend0_",trend_dates, "_status")
-      varname_dates_to_double <- paste0(prefix, "_doublingdays0_",trend_dates)
+      varname_trend <- paste0(prefix_pr100, "_trend0_",trend_dates, "_status")
+      varname_dates_to_double <- paste0(prefix_pr100, "_doublingdays0_",trend_dates)
     } else {
-      varname_trend <- paste0(prefix, "_trend0_",trend_dates, "_pr", formatC(prX, format="f", digits = 0), "_status")
-      varname_dates_to_double <- paste0(prefix, "_doublingdays0_",trend_dates, "_pr", formatC(prX, format="f", digits = 0))
+      varname_trend <- paste0(prefix_pr100, "_trend0_",trend_dates, "_pr", formatC(prX, format="f", digits = 0), "_status")
+      varname_dates_to_double <- paste0(prefix_pr100, "_doublingdays0_",trend_dates, "_pr", formatC(prX, format="f", digits = 0))
     }
 
     varname_forecast <- c(
