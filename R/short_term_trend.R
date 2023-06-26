@@ -27,11 +27,8 @@ short_term_trend_internal <- function(
   numerator,
   denominator = NULL,
   prX = 100,
-  trend_dates = 42,
-  remove_last_dates = 0,
-  forecast_dates = trend_dates,
-  trend_isoyearweeks = ceiling(trend_dates / 7),
-  remove_last_isoyearweeks = ceiling(remove_last_dates / 7),
+  trend_isoyearweeks = 6,
+  remove_last_isoyearweeks = 0,
   forecast_isoyearweeks = trend_isoyearweeks,
   numerator_naming_prefix = "from_numerator",
   denominator_naming_prefix = "from_denominator",
@@ -52,39 +49,24 @@ short_term_trend_internal <- function(
 
   # check granularity time. can only do date and isoyearweek
   gran_time <- x$granularity_time[1]
-  if(!gran_time %in% c("date", "isoyearweek")){
-    stop("granularity_time is not date or isoyearweek")
+  if(!gran_time %in% c("isoyearweek")){
+    stop("granularity_time is not isoyearweek")
   }
 
   # weekly vs daily
   # create with_pred
 
-  # if we have weekly data, then multiply everything by 7
-  if(gran_time=="isoyearweek"){
-    # must have more than 6 weeks data
-    if(trend_isoyearweeks < 6){
-      stop("trend_isoyearweeks must be >= 6 when granularity_time is isoyearweek")
-    }
-    trend_rows <- trend_isoyearweeks
-    remove_last_rows <- remove_last_isoyearweeks
-    forecast_rows <- forecast_isoyearweeks
-
-    trend_dates <- trend_isoyearweeks * 7
-    # ??
-    with_pred <- cstidy::expand_time_to(x, max_isoyearweek = cstime::date_to_isoyearweek_c(max(x$date)+forecast_isoyearweeks*7))
-  } else {
-
-    # daily
-    if(trend_dates < 14){
-      stop("trend_dates must be >= 14 dates when granularity_time is date")
-    }
-    trend_rows <- trend_dates
-    remove_last_rows <- remove_last_dates
-    forecast_rows <- forecast_dates
-
-    with_pred <- cstidy::expand_time_to(x, max_date = max(x$date)+forecast_dates)
+  # must have more than 6 weeks data
+  if(trend_isoyearweeks < 6){
+    stop("trend_isoyearweeks must be >= 6 when granularity_time is isoyearweek")
   }
+  trend_rows <- trend_isoyearweeks
+  remove_last_rows <- remove_last_isoyearweeks
+  forecast_rows <- forecast_isoyearweeks
 
+  trend_dates <- trend_isoyearweeks * 7
+  # ??
+  with_pred <- cstidy::expand_time_to(x, max_isoyearweek = cstime::date_to_isoyearweek_c(max(x$date)+forecast_isoyearweeks*7))
 
   # numerator name
   suffix <- stringr::str_extract(numerator, "_[a-z]+$")
