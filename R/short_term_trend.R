@@ -56,9 +56,9 @@ short_term_trend_internal <- function(
   # weekly vs daily
   # create with_pred
 
-  # must have more than 6 weeks data
-  if(trend_isoyearweeks < 6){
-    stop("trend_isoyearweeks must be >= 6 when granularity_time is isoyearweek")
+  # must have more than 2 weeks data
+  if(trend_isoyearweeks < 2){
+    stop("trend_isoyearweeks must be >= 2 when granularity_time is isoyearweek")
   }
   trend_rows <- trend_isoyearweeks
   remove_last_rows <- remove_last_isoyearweeks
