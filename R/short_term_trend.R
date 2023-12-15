@@ -33,7 +33,8 @@ short_term_trend_internal <- function(
   numerator_naming_prefix = "from_numerator",
   denominator_naming_prefix = "from_denominator",
   statistics_naming_prefix = "universal",
-  remove_training_data = FALSE
+  remove_training_data = FALSE,
+  alpha = 0.05
   ){
 
 
@@ -64,7 +65,7 @@ short_term_trend_internal <- function(
   remove_last_rows <- remove_last_isoyearweeks
   forecast_rows <- forecast_isoyearweeks
 
-  trend_dates <- trend_isoyearweeks * 7
+  trend_dates <- trend_isoyearweeks * 7 - 1
   # ??
   with_pred <- cstidy::expand_time_to(x, max_isoyearweek = cstime::date_to_isoyearweek_c(max(x$date)+forecast_isoyearweeks*7))
 
@@ -193,7 +194,7 @@ short_term_trend_internal <- function(
       vals <- stats::coef(summary(model))
       co <- vals["trend_variable", "Estimate"]
       pval <- vals["trend_variable",][[4]]
-      if(pval > 0.05){
+      if(pval > alpha){
         trend[i] <- "null"
       } else {
         if(co < 0){
@@ -302,6 +303,7 @@ short_term_trend <- function(
 #' @param denominator_naming_prefix "from_denominator", "generic", or a custom prefix
 #' @param statistics_naming_prefix "universal" (one variable for trend status, one variable for doubling dates), "from_numerator_and_prX" (If denominator is NULL, then one variable corresponding to numerator. If denominator exists, then one variable for each of the prXs)
 #' @param remove_training_data Boolean. If TRUE, removes the training data (i.e. 1:(trend_dates-1) or 1:(trend_isoyearweeks-1)) from the returned dataset.
+#' @param alpha Significance level for change in trend.
 #' @param ... Not in use.
 #' @returns The original csfmt_rts_data_v1 dataset with extra columns. *_trend*_status contains a factor with levels c("training", "forecast", "decreasing", "null", "increasing"), while *_doublingdays* contains the expected number of days before the numerator doubles.
 #' @examples
@@ -333,6 +335,7 @@ short_term_trend.csfmt_rts_data_v1 <- function(
   denominator_naming_prefix = "from_denominator",
   statistics_naming_prefix = "universal",
   remove_training_data = FALSE,
+  alpha = 0.05,
   ...
   ){
 
@@ -369,7 +372,8 @@ short_term_trend.csfmt_rts_data_v1 <- function(
         numerator_naming_prefix = numerator_naming_prefix,
         denominator_naming_prefix = denominator_naming_prefix,
         statistics_naming_prefix = statistics_naming_prefix,
-        remove_training_data = remove_training_data
+        remove_training_data = remove_training_data,
+        alpha = alpha
       )
     })
     retval <- rbindlist(retval) #unlist(retval, recursive = FALSE, use.names = FALSE)
@@ -385,7 +389,8 @@ short_term_trend.csfmt_rts_data_v1 <- function(
       numerator_naming_prefix = numerator_naming_prefix,
       denominator_naming_prefix = denominator_naming_prefix,
       statistics_naming_prefix = statistics_naming_prefix,
-      remove_training_data = remove_training_data
+      remove_training_data = remove_training_data,
+      alpha = alpha
     )
   }
 
