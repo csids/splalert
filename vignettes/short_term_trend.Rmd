@@ -61,10 +61,10 @@ res <- csalert::short_term_trend(
 )
 
 # create the trend label
-res[, hospitalization_with_covid19_as_primary_cause_trend0_42_status := factor(
-  hospitalization_with_covid19_as_primary_cause_trend0_42_status,
-  levels = c("training","forecast","decreasing", "null", "increasing"),
-  labels = c("Training","Forecast","Decreasing", "Null", "Increasing")
+res[, hospitalization_with_covid19_as_primary_cause_trend0_41_status := factor(
+  hospitalization_with_covid19_as_primary_cause_trend0_41_status,
+  levels = c("training","forecast","notincreasing", "increasing"),
+  labels = c("Training","Forecast","Not increasin", "Increasing")
 )]
 
 colnames(res)
@@ -81,7 +81,7 @@ res[
     date, 
     hospitalization_with_covid19_as_primary_cause_n, 
     hospitalization_with_covid19_as_primary_cause_forecasted_n,
-    hospitalization_with_covid19_as_primary_cause_trend0_42_status
+    hospitalization_with_covid19_as_primary_cause_trend0_41_status
   )
 ]
 ```
@@ -97,7 +97,7 @@ q <- ggplot(
     group = 1
   )
 )
-q <- q + geom_col(mapping = aes(fill = hospitalization_with_covid19_as_primary_cause_trend0_42_status))
+q <- q + geom_col(mapping = aes(fill = hospitalization_with_covid19_as_primary_cause_trend0_41_status))
 q <- q + geom_errorbar(
   mapping = aes(
     ymin = hospitalization_with_covid19_as_primary_cause_forecasted_predinterval_q02x5_n,
@@ -126,7 +126,7 @@ q <- ggplot(
 q <- q + geom_col()
 q <- q + geom_point(mapping = aes(
   y = hospitalization_with_covid19_as_primary_cause_forecasted_n + shape_adjustment_factor,
-  shape = hospitalization_with_covid19_as_primary_cause_trend0_42_status
+  shape = hospitalization_with_covid19_as_primary_cause_trend0_41_status
 ))
 q <- q + geom_errorbar(
   mapping = aes(
@@ -164,14 +164,14 @@ pd <- copy(csmaps::nor_county_map_b2020_split_dt)
 pd[
   trend[isoyearweek == "2021-44"],
   on = c("location_code"),
-  covid19_cases_testdate_trend0_42_status := covid19_cases_testdate_trend0_42_status
+  covid19_cases_testdate_trend0_41_status := covid19_cases_testdate_trend0_41_status
 ]
 
 # plot map
 q <- ggplot()
 q <- q + geom_polygon(
   data = pd,
-  mapping = aes(x = long, y = lat, group = group,fill=covid19_cases_testdate_trend0_42_status),
+  mapping = aes(x = long, y = lat, group = group,fill=covid19_cases_testdate_trend0_41_status),
   color="black",
   linewidth = 0.2
 )

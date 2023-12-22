@@ -12,16 +12,14 @@ short_term_trend(x, ...)
   numerator,
   denominator = NULL,
   prX = 100,
-  trend_dates = 42,
-  remove_last_dates = 0,
-  forecast_dates = trend_dates,
-  trend_isoyearweeks = ceiling(trend_dates/7),
-  remove_last_isoyearweeks = ceiling(remove_last_dates/7),
+  trend_isoyearweeks = 6,
+  remove_last_isoyearweeks = 0,
   forecast_isoyearweeks = trend_isoyearweeks,
   numerator_naming_prefix = "from_numerator",
   denominator_naming_prefix = "from_denominator",
   statistics_naming_prefix = "universal",
   remove_training_data = FALSE,
+  include_decreasing = FALSE,
   alpha = 0.05,
   ...
 )
@@ -37,12 +35,6 @@ short_term_trend(x, ...)
 
 \item{prX}{If using denominator, what scaling factor should be used for numerator/denominator?}
 
-\item{trend_dates}{Number of dates you want to check the trend}
-
-\item{remove_last_dates}{Number of dates you want to remove at the end (due to unreliable data)}
-
-\item{forecast_dates}{Number of dates you want to forecast into the future}
-
 \item{trend_isoyearweeks}{Same as trend_dates, but used if granularity_geo=='isoyearweek'}
 
 \item{remove_last_isoyearweeks}{Same as remove_last_dates, but used if granularity_geo=='isoyearweek'}
@@ -56,6 +48,8 @@ short_term_trend(x, ...)
 \item{statistics_naming_prefix}{"universal" (one variable for trend status, one variable for doubling dates), "from_numerator_and_prX" (If denominator is NULL, then one variable corresponding to numerator. If denominator exists, then one variable for each of the prXs)}
 
 \item{remove_training_data}{Boolean. If TRUE, removes the training data (i.e. 1:(trend_dates-1) or 1:(trend_isoyearweeks-1)) from the returned dataset.}
+
+\item{include_decreasing}{If true, then *_trend*_status contains the levels c("training", "forecast", "decreasing", "null", "increasing"), otherwise the levels c("training", "forecast", "notincreasing", "increasing")}
 
 \item{alpha}{Significance level for change in trend.}
 }
@@ -76,6 +70,6 @@ res <- csalert::short_term_trend(
 print(res[, .(
   isoyearweek,
   hospitalization_with_covid19_as_primary_cause_n,
-  hospitalization_with_covid19_as_primary_cause_trend0_42_status
+  hospitalization_with_covid19_as_primary_cause_trend0_41_status
 )])
 }
