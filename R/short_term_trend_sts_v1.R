@@ -3,9 +3,11 @@
 #' The method is based upon a published analytics strategy by Benedetti (2019) <doi:10.5588/pha.19.0002>.
 #' This function has been frozen on 2024-06-24. It is designed to use sts
 #' @param sts Data object of type sts.
-#' @param control Control object
-#'   - w: Length of the window that is being analyzed.
-#'   - alpha: Significance level for change in trend.
+#' @param control Control object, a named list with several elements.
+#'   \describe{
+#'     \item{w}{Length of the window that is being analyzed.}
+#'     \item{alpha}{Significance level for change in trend.}
+#' }
 #' @returns sts object with the alarms slot set to 0/1 if not-increasing/increasing.
 #' @examples
 #' d <- cstidy::nor_covid19_icu_and_hospitalization_csfmt_rts_v1
