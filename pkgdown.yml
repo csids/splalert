@@ -1,0 +1,10 @@
+pandoc: 2.9.2.1
+pkgdown: 2.0.7
+pkgdown_sha: ~
+articles:
+  short_term_trend: short_term_trend.html
+last_built: 2024-06-24T11:44Z
+urls:
+  reference: https://www.csids.no/csalert/reference
+  article: https://www.csids.no/csalert/articles
+
