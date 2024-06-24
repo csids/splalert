@@ -3,10 +3,9 @@
 #' The method is based upon a published analytics strategy by Benedetti (2019) <doi:10.5588/pha.19.0002>.
 #' This function has been frozen on 2024-06-24. It is designed to use sts
 #' @param sts Data object of type sts.
-#' @param control:
-#'   - w:
-#' @param alpha Significance level for change in trend.
-#' @param ... Not in use.
+#' @param control Control object
+#'   - w: Length of the window that is being analyzed.
+#'   - alpha: Significance level for change in trend.
 #' @returns sts object with the alarms slot set to 0/1 if not-increasing/increasing.
 #' @examples
 #' d <- cstidy::nor_covid19_icu_and_hospitalization_csfmt_rts_v1
@@ -62,7 +61,7 @@ short_term_trend_sts_v1 <- function(
   ######################################################################
 
   defaultControl <- eval(formals()$control)
-  control <- modifyList(defaultControl, control, keep.null = TRUE)
+  control <- utils::modifyList(defaultControl, control, keep.null = TRUE)
 
   ######################################################################
   # Initialize the necessary vectors

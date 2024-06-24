@@ -27,6 +27,8 @@ periodic_pattern <- function(n_p = 2,
                              p = 52*7,
                              t = 1:nrow(d)){
 
+  d <- NULL
+
         l <-  1:n_p
 
         c <- rep(0, length(t))
@@ -104,7 +106,11 @@ simulate_baseline_data <-  function(start_date,
                                     phi,
                                     shift_1){
 
-
+  time <- NULL
+  trend <- NULL
+  seasonal_pattern <- NULL
+  weekly_pattern <- NULL
+  n <- NULL
 
   # d <- csalert::gen_csfmt_rts_baseline_data(start_date, end_date)
 
@@ -159,11 +165,11 @@ simulate_baseline_data <-  function(start_date,
   mu <- d$mu
 
   if (phi==1) {
-    d[, n := rpois(.N, lambda=mu)]
+    d[, n := stats::rpois(.N, lambda=mu)]
   } else {
     prob <- 1/phi
     size <- mu/(phi-1)
-    d[, n := rnbinom(.N,size=size,prob=prob)]
+    d[, n := stats::rnbinom(.N,size=size,prob=prob)]
   }
 
 
@@ -203,8 +209,16 @@ simulate_seasonal_outbreak_data <-  function(data,
                                              n_season_outbreak = 1,
                                              m=50){
 
+  mu <- NULL
+  phi <- NULL
+  weight <- NULL
+  seasonal_outbreak <- NULL
+  seasonal_outbreak_n <- NULL
+  seasonal_outbreak_rw <- NULL
+  isoyearweek <- NULL
   years_out <- NULL
-  print(years_out)
+  seasonal_outbreak_n_rw <- NULL
+  n <- NULL
 
   d <- copy(data)
   N <- nrow(d)
@@ -244,7 +258,7 @@ simulate_seasonal_outbreak_data <-  function(data,
     time <- d[isoyearweek %in% wtime]$time
 
     # probability of outbreak start around the peak of seasoanl
-    start_seasonal_outbreak <- sample(time, n_season_outbreak,replace = FALSE,p=abs(rnorm(length(time))))
+    start_seasonal_outbreak <- sample(time, n_season_outbreak,replace = FALSE,prob=abs(stats::rnorm(length(time))))
 
     # number of cases for outbreat
       n_cases_outbreak <- rep(0, n_season_outbreak)
@@ -256,7 +270,7 @@ simulate_seasonal_outbreak_data <-  function(data,
           while(size_outbreak < 2){
             set.seed(sou)
             sd <- d[time == start_seasonal_outbreak[i]]$sd
-            size_outbreak=rpois(1,sd*m*10)
+            size_outbreak=stats::rpois(1,sd*m*10)
             sou=sou+1
           }
 
@@ -265,9 +279,9 @@ simulate_seasonal_outbreak_data <-  function(data,
 
         # Cases are distributed from the start of outbreak using a log normal distribution
 
-        outbreak <-rlnorm(n_cases_outbreak[i], meanlog = 0, sdlog = 0.5)
+        outbreak <- stats::rlnorm(n_cases_outbreak[i], meanlog = 0, sdlog = 0.5)
 
-        h <- hist(outbreak,breaks=seq(0,ceiling(max(outbreak)),0.1),plot=FALSE)
+        h <- graphics::hist(outbreak,breaks=seq(0,ceiling(max(outbreak)),0.1),plot=FALSE)
 
         outbreak_n <- h$counts
         duration <-start_seasonal_outbreak[i]:(start_seasonal_outbreak[i] + length(outbreak_n)-1)
@@ -309,6 +323,15 @@ simulate_spike_outbreak_data <-  function(data,
                                           n_sp_outbreak = 1,
                                           m){
 
+  mu <- NULL
+  phi <- NULL
+  weight <- NULL
+  sp_outbreak_n <- NULL
+  sp_outbreak_n_rw <- NULL
+  n <- NULL
+  sp_outbreak <- NULL
+  n <- NULL
+
   d <- copy(data)
 
   N <- nrow(d)
@@ -343,7 +366,7 @@ simulate_spike_outbreak_data <-  function(data,
         while(soutbk<2){
           set.seed(sou)
           sd <- d[time == startoutbk[i]]$sd
-          soutbk=rpois(1,sd*m*10)
+          soutbk=stats::rpois(1,sd*m*10)
           sou=sou+1
         }
 
@@ -351,8 +374,8 @@ simulate_spike_outbreak_data <-  function(data,
 
 
         # Cases are distributed from the start of outbreak using a log normal distribution
-        outbreak <-rlnorm(n_cases_outbreak[i], meanlog = 0, sdlog = 0.5)
-        h <- hist(outbreak,breaks=seq(0,ceiling(max(outbreak)),0.2),plot=FALSE)
+        outbreak <-stats::rlnorm(n_cases_outbreak[i], meanlog = 0, sdlog = 0.5)
+        h <- graphics::hist(outbreak,breaks=seq(0,ceiling(max(outbreak)),0.2),plot=FALSE)
         outbreak_n <- h$counts
         duration <-startoutbk[i]:(startoutbk[i]+length(outbreak_n)-1)
 
@@ -395,6 +418,11 @@ simulate_spike_outbreak_data <-  function(data,
 add_holiday_effect <-  function(data,
                                 holiday_data,
                                 holiday_effect = 2){
+
+  holiday <- NULL
+  is_holiday <- NULL
+  n <- NULL
+  d <- NULL
 
   d <- copy(data)
 

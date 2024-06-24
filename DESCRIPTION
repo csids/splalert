@@ -33,7 +33,6 @@ Suggests: testthat,
     csmaps,
     csstyle,
     ggrepel,
-    plnr,
-    surveillance
+    plnr
 RoxygenNote: 7.2.3
 VignetteBuilder: knitr

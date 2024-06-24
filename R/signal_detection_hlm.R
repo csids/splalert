@@ -81,8 +81,17 @@ signal_detection_hlm.csfmt_rts_data_v1 <- function(
   ...
   ){
 
+  . <- NULL
   time_series_id <- NULL
   to_be_forecasted <- NULL
+  isoyearweek <- NULL
+  lag <- NULL
+  years <- NULL
+  weeks <- NULL
+  var <- NULL
+  baseline_mean <- NULL
+  baseline_sd <- NULL
+
 
   if(!"time_series_id" %in% names(x)){
     remove_time_series_id <- TRUE
@@ -159,10 +168,10 @@ signal_detection_hlm.csfmt_rts_data_v1 <- function(
   }
   with_pred[to_be_forecasted==FALSE , (varname_forecast_value) := get(value)]
   with_pred[,(varname_forecast) := to_be_forecasted]
-  with_pred[, (varname_baseline_predinterval_q50x0_value) := fn(qnorm(0.50, baseline_mean, baseline_sd))]
+  with_pred[, (varname_baseline_predinterval_q50x0_value) := fn(stats::qnorm(0.50, baseline_mean, baseline_sd))]
   with_pred[to_be_forecasted==TRUE, (varname_forecast_value) := get(varname_baseline_predinterval_q50x0_value)]
-  with_pred[, (varname_baseline_predinterval_q00x5_value) := fn(qnorm(0.005, baseline_mean, baseline_sd))]
-  with_pred[, (varname_baseline_predinterval_q99x5_value) := fn(qnorm(0.995, baseline_mean, baseline_sd))]
+  with_pred[, (varname_baseline_predinterval_q00x5_value) := fn(stats::qnorm(0.005, baseline_mean, baseline_sd))]
+  with_pred[, (varname_baseline_predinterval_q99x5_value) := fn(stats::qnorm(0.995, baseline_mean, baseline_sd))]
 
   with_pred[, (varname_status) := "null"]
   with_pred[get(value) > get(varname_baseline_predinterval_q99x5_value), (varname_status) := "high"]

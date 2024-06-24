@@ -9,11 +9,9 @@ short_term_trend_sts_v1(sts, control = list(w = 5, alpha = 0.05))
 \arguments{
 \item{sts}{Data object of type sts.}
 
-\item{control:}{- w:}
-
-\item{alpha}{Significance level for change in trend.}
-
-\item{...}{Not in use.}
+\item{control}{Control object
+- w: Length of the window that is being analyzed.
+- alpha: Significance level for change in trend.}
 }
 \value{
 sts object with the alarms slot set to 0/1 if not-increasing/increasing.
