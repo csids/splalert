@@ -31,7 +31,6 @@ Suggests: testthat,
     covidnor,
     csdata,
     csmaps,
-    csstyle,
     ggrepel,
     plnr
 RoxygenNote: 7.2.3

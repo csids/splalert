@@ -1,12 +1,6 @@
-## Resubmission
-
-- Included \value to .Rd files
-- Removed set.seed()
-- Included examples
-
 ## Test environments
 
-* local Ubuntu 20.04 install, R 4.3.0
+* local Ubuntu 20.04 install, R 4.3.2
 * win-builder
 * rhub
 
