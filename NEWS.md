@@ -1,3 +1,7 @@
+# version 2024.6.24
+
+- Inclusion of short_term_trend_sts_v1.
+
 # Version 2023.6.22
 
 - First inclusion of signal_detection_hlm.
